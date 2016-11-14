@@ -3,9 +3,9 @@ extern crate crowbar;
 #[macro_use]
 extern crate cpython;
 
-use crowbar::{PyResult, Value};
+use crowbar::{Value, LambdaResult};
 
-fn echo(event: Value) -> PyResult<Value> {
+fn echo(event: Value) -> LambdaResult {
     Ok(event)
 }
 
