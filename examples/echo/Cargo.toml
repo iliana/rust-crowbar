@@ -1,5 +1,5 @@
 [package]
-name = "echo"
+name = "lambda-echo"
 version = "0.1.0"
 authors = ["Ian Weller <ianweller@buttslol.net>"]
 
