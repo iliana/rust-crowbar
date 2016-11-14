@@ -1,6 +1,6 @@
 [package]
 name = "crowbar"
-version = "0.1.0"
+version = "0.0.1"
 authors = ["Ian Weller <ianweller@buttslol.net>"]
 description = "Wrapper to simplify writing AWS Lambda functions in Rust (using the Python execution environment)"
 repository = "https://github.com/ianweller/rust-crowbar"
