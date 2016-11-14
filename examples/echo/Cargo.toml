@@ -1,0 +1,12 @@
+[package]
+name = "echo"
+version = "0.1.0"
+authors = ["Ian Weller <ianweller@buttslol.net>"]
+
+[lib]
+name = "lambda"
+crate-type = ["dylib"]
+
+[dependencies]
+crowbar = { path = "../.." }
+cpython = { git = "https://github.com/dgrunwald/rust-cpython.git", default-features = false, features = ["python27-sys"] }

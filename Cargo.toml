@@ -1,0 +1,13 @@
+[package]
+name = "crowbar"
+version = "0.1.0"
+authors = ["Ian Weller <ianweller@buttslol.net>"]
+description = "Wrapper to simplify writing AWS Lambda functions in Rust (using the Python execution environment)"
+repository = "https://github.com/ianweller/rust-crowbar"
+keywords = ["aws", "lambda"]
+license = "MIT/Apache-2.0"
+
+[dependencies]
+cpython = { git = "https://github.com/dgrunwald/rust-cpython.git", default-features = false, features = ["python27-sys"] }
+cpython-json = { git = "https://github.com/ianweller/rust-cpython-json.git", default-features = false, features = ["python27-sys"] }
+serde_json = "0.8"
