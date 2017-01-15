@@ -17,7 +17,7 @@ macro_rules! pyerr {
 pub fn handler<F>(py: Python, f: F, py_event: PyObject, _: PyObject) -> PyResult<PyObject>
     where F: Fn(Value) -> LambdaResult
 {
-    let event = pyerr!(py, to_json(py, py_event))?;
+    let event = pyerr!(py, to_json(py, &py_event))?;
     let result = match f(event) {
         Ok(r) => r,
         Err(e) => {

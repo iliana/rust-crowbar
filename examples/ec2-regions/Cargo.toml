@@ -1,6 +1,6 @@
 [package]
 name = "lambda-ec2-regions"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Ian Weller <ianweller@buttslol.net>"]
 
 [lib]
@@ -8,9 +8,10 @@ name = "lambda"
 crate-type = ["dylib"]
 
 [dependencies]
+# Normally you'd write: crowbar = "0.1"
 crowbar = { path = "../.." }
-cpython = { git = "https://github.com/dgrunwald/rust-cpython.git", default-features = false, features = ["python27-sys"] }
-rusoto = { version = "0.18", features = ["ec2"] }
+cpython = { version = "*", default-features = false, features = ["python27-sys"] }
+rusoto = { version = "0.21", features = ["ec2"] }
 
 [features]
 unstable = ["rusoto/unstable"]
