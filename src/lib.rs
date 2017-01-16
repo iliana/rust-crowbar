@@ -242,7 +242,7 @@ pub fn handler<F>(py: Python, f: F, py_event: PyObject, py_context: PyObject) ->
 /// like:
 ///
 /// ```rust,ignore
-/// fn handler(event: serde_json::Value, context: LambdaContext) -> LambdaResult
+/// fn handler(event: Value, context: LambdaContext) -> LambdaResult
 /// ```
 ///
 /// To use this macro, you need to `macro_use` both crowbar *and* cpython, because crowbar
