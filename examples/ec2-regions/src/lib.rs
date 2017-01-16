@@ -8,10 +8,13 @@ use crowbar::{Value, LambdaContext, LambdaResult};
 use rusoto::ec2::{Ec2Client, DescribeRegionsRequest};
 use rusoto::{DefaultCredentialsProvider, Region};
 use std::default::Default;
+use std::env;
+use std::str::FromStr;
 
 fn list_regions(_: Value, _: LambdaContext) -> LambdaResult {
     let provider = DefaultCredentialsProvider::new()?;
-    let client = Ec2Client::new(provider, Region::UsEast1);
+    let region_str = env::var("AWS_DEFAULT_REGION")?;
+    let client = Ec2Client::new(provider, Region::from_str(&region_str)?);
     let input: DescribeRegionsRequest = Default::default();
 
     match client.describe_regions(&input)?.regions {
