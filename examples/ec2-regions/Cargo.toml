@@ -9,7 +9,7 @@ crate-type = ["dylib"]
 
 [dependencies]
 # Normally you'd write: crowbar = "0.1"
-crowbar = { path = "../.." }
+crowbar = { path = "../..", version = "0.1" }
 cpython = { version = "*", default-features = false, features = ["python27-sys"] }
 rusoto = { version = "0.21", features = ["ec2"] }
 
