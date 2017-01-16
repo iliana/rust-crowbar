@@ -4,12 +4,12 @@ extern crate crowbar;
 extern crate cpython;
 extern crate rusoto;
 
-use crowbar::{Value, LambdaResult};
+use crowbar::{Value, LambdaContext, LambdaResult};
 use rusoto::ec2::{Ec2Client, DescribeRegionsRequest};
 use rusoto::{DefaultCredentialsProvider, Region};
 use std::default::Default;
 
-fn list_regions(_: Value) -> LambdaResult {
+fn list_regions(_: Value, _: LambdaContext) -> LambdaResult {
     let provider = DefaultCredentialsProvider::new()?;
     let client = Ec2Client::new(provider, Region::UsEast1);
     let input: DescribeRegionsRequest = Default::default();
