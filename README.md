@@ -47,4 +47,4 @@ crate-type = ["dylib"]
 
 For best results, it's important to build the shared library on a system using the same libraries as the Lambda execution environment. Since Lambda uses Amazon Linux, the easiest way to do this is to use an [EC2 instance](https://aws.amazon.com/amazon-linux-ami/) or a [Docker container](https://hub.docker.com/_/amazonlinux/).
 
-The `builder` directory of the [crowbar git repo](https://github.com/ianweller/rust-crowbar) contains a `Dockerfile` with Rust set up and a build script to dump a zip file containing a stripped shared library to stdout. Documentation for that is available at [ianweller/crowbar-builder on Docker Hub](https://hub.docker.com/r/ianweller/crowbar-builder/).
+The `builder` directory of the [crowbar git repo](https://github.com/ilianaw/rust-crowbar) contains a `Dockerfile` with Rust set up and a build script to dump a zip file containing a stripped shared library to stdout. Documentation for that is available at [ilianaw/crowbar-builder on Docker Hub](https://hub.docker.com/r/ilianaw/crowbar-builder/).

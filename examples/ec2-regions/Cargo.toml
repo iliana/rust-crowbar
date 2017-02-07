@@ -1,7 +1,7 @@
 [package]
 name = "lambda-ec2-regions"
-version = "0.1.1"
-authors = ["Ian Weller <ianweller@buttslol.net>"]
+version = "0.1.2"
+authors = ["Iliana Weller <ilianaw@buttslol.net>"]
 
 [lib]
 name = "lambda"

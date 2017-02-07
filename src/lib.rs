@@ -58,10 +58,10 @@
 //! to do this is to use an [EC2 instance](https://aws.amazon.com/amazon-linux-ami/) or a [Docker
 //! container](https://hub.docker.com/_/amazonlinux/).
 //!
-//! The `builder` directory of the [crowbar git repo](https://github.com/ianweller/rust-crowbar)
+//! The `builder` directory of the [crowbar git repo](https://github.com/ilianaw/rust-crowbar)
 //! contains a `Dockerfile` with Rust set up and a build script to dump a zip file containing a
 //! stripped shared library to stdout. Documentation for that is available at
-//! [ianweller/crowbar-builder on Docker Hub](https://hub.docker.com/r/ianweller/crowbar-builder/).
+//! [ilianaw/crowbar-builder on Docker Hub](https://hub.docker.com/r/ilianaw/crowbar-builder/).
 
 extern crate cpython;
 extern crate cpython_json;
