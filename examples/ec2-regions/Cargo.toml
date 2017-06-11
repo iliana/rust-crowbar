@@ -1,6 +1,6 @@
 [package]
 name = "lambda-ec2-regions"
-version = "0.1.2"
+version = "0.2.0"
 authors = ["Iliana Weller <ilianaw@buttslol.net>"]
 
 [lib]
@@ -9,9 +9,12 @@ crate-type = ["dylib"]
 
 [dependencies]
 # Normally you'd write: crowbar = "0.1"
-crowbar = { path = "../..", version = "0.1" }
-cpython = { version = "*", default-features = false, features = ["python27-sys"] }
-rusoto = { version = "0.21", features = ["ec2"] }
+crowbar = { path = "../..", version = "0.2", default-features = false }
+cpython = { version = "0.1", default-features = false }
+rusoto_core = "0.25"
+rusoto_ec2 = "0.25"
 
 [features]
-unstable = ["rusoto/unstable"]
+default = ["python3-sys"]
+python27-sys = ["crowbar/python27-sys", "cpython/python27-sys"]
+python3-sys = ["crowbar/python3-sys", "cpython/python3-sys"]

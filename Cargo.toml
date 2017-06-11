@@ -12,13 +12,10 @@ exclude = [".gitignore", "builder", "examples"]
 
 [dependencies]
 serde_json = "1.0"
+cpython = { version = "0.1", default-features = false }
+cpython-json = { version = "0.2", default-features = false }
 
-[dependencies.cpython]
-version = "0.1"
-default-features = false
-features = ["python27-sys"]
-
-[dependencies.cpython-json]
-version = "0.2"
-default-features = false
-features = ["python27-sys"]
+[features]
+default = ["python3-sys"]
+python27-sys = ["cpython/python27-sys", "cpython-json/python27-sys"]
+python3-sys = ["cpython/python3-sys", "cpython-json/python3-sys"]

@@ -1,6 +1,6 @@
 [package]
 name = "lambda-echo"
-version = "0.1.2"
+version = "0.2.0"
 authors = ["Iliana Weller <ilianaw@buttslol.net>"]
 
 [lib]
@@ -8,6 +8,6 @@ name = "lambda"
 crate-type = ["dylib"]
 
 [dependencies]
-# Normally you'd write: crowbar = "0.1"
-crowbar = { path = "../..", version = "0.1" }
-cpython = { version = "*", default-features = false, features = ["python27-sys"] }
+# Normally you'd write: crowbar = "0.2"
+crowbar = { path = "../..", version = "0.2" }
+cpython = "0.1"
