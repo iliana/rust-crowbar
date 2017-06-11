@@ -1,6 +1,6 @@
 [package]
 name = "crowbar"
-version = "0.1.1"
+version = "0.2.0"
 authors = ["Iliana Weller <ilianaw@buttslol.net>"]
 description = "Wrapper to simplify writing AWS Lambda functions in Rust (using the Python execution environment)"
 readme = "README.md"
@@ -11,7 +11,7 @@ license = "MIT/Apache-2.0"
 exclude = [".gitignore", "builder", "examples"]
 
 [dependencies]
-serde_json = "0.8"
+serde_json = "1.0"
 
 [dependencies.cpython]
 version = "0.1"
@@ -19,6 +19,6 @@ default-features = false
 features = ["python27-sys"]
 
 [dependencies.cpython-json]
-version = "0.1"
+version = "0.2"
 default-features = false
 features = ["python27-sys"]
