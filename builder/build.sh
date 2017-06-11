@@ -9,7 +9,7 @@ eval "$(pyenv init -)"
         yum install -y "$@"
     fi
     . $HOME/.cargo/env
-    cargo build --release
+    cargo build ${CARGO_FLAGS:-} --release
 ) 1>&2
 cd $CARGO_TARGET_DIR/release
 (
