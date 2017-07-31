@@ -287,15 +287,34 @@ pub fn handler<F>(py: Python, f: F, py_event: PyObject, py_context: PyObject) ->
 /// # }
 /// ```
 macro_rules! lambda {
-    ($f:expr) => {
-        py_module_initializer!(liblambda, initliblambda, PyInit_liblambda, |py, m| {
-            try!(m.add(py, "handler",
-                       py_fn!(py, x(event: $crate::PyObject,
-                                    context: $crate::PyObject)
-                                    -> $crate::PyResult<$crate::PyObject> {
-                           $crate::handler(py, $f, event, context)
-                       })));
+    (@module ($module:ident, $py2:ident, $py3:ident) @handlers ($($handler:expr => $target:expr),*)) => {
+        py_module_initializer!($module, $py2, $py3, |py, m| {
+            $(
+            m.add(py, $handler, py_fn!(py, x(event: $crate::PyObject, context: $crate::PyObject) -> $crate::PyResult<$crate::PyObject> {
+                $crate::handler(py, $target, event, context)
+            }))?;
+            )*
             Ok(())
         });
-    }
+    };
+
+    (crate $module:tt { $($handler:expr => $target:expr),* }) => {
+        lambda! { @module $module @handlers ($($handler => $target),*) }
+    };
+
+    (crate $module:tt { $($handler:expr => $target:expr,)* }) => {
+        lambda! { @module $module @handlers ($($handler => $target),*) }
+    };
+
+    ($($handler:expr => $target:expr),*) => {
+        lambda! { @module (liblambda, initliblambda, PyInit_liblambda) @handlers ($($handler => $target),*) }
+    };
+
+    ($($handler:expr => $target:expr,)*) => {
+        lambda! { $($handler => $target),* }
+    };
+
+    ($f:expr) => {
+        lambda! { "handler" => $f, }
+    };
 }
