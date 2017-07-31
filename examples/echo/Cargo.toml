@@ -11,4 +11,7 @@ crate-type = ["cdylib"]
 [dependencies]
 # Normally you'd write: crowbar = "0.2"
 crowbar = { path = "../..", version = "0.2" }
-cpython = "0.1"
+cpython = { version = "0.1", default-features = false }
+
+[features]
+default = ["cpython/python3-sys"]
