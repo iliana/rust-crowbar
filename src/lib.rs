@@ -217,21 +217,47 @@ impl std::error::Error for ContextError {
 }
 
 #[doc(hidden)]
-pub fn handler<F>(py: Python, f: F, py_event: PyObject, py_context: PyObject) -> PyResult<PyObject>
-    where F: Fn(Value, LambdaContext) -> LambdaResult
+pub trait IntoValueOption {
+    fn into_value_option(self) -> Option<Value>;
+}
+
+impl IntoValueOption for Option<Value> {
+    fn into_value_option(self) -> Option<Value> {
+        self
+    }
+}
+
+impl IntoValueOption for Value {
+    fn into_value_option(self) -> Option<Value> {
+        Some(self)
+    }
+}
+
+impl IntoValueOption for () {
+    fn into_value_option(self) -> Option<Value> {
+        None
+    }
+}
+
+#[doc(hidden)]
+pub fn handler<F, O, E>(py: Python, f: F, py_event: PyObject, py_context: PyObject) -> PyResult<PyObject>
+    where F: FnOnce(Value, LambdaContext) -> Result<O, E>,
+          E: std::fmt::Debug,
+          O: IntoValueOption
 {
-    let event = to_json(py, &py_event).or_else(|e| Err(e.to_pyerr(py)))?;
-    let result = match f(event, LambdaContext::new(&py, &py_context)?) {
-        Ok(r) => r,
-        Err(e) => {
-            return Err(PyErr {
-                ptype: cpython::exc::RuntimeError::type_object(py).into_object(),
-                pvalue: Some(PyUnicode::new(py, &format!("{:?}", e)).into_object()),
-                ptraceback: None,
-            })
-        }
-    };
-    from_json(py, result).or_else(|e| Err(e.to_pyerr(py)))
+    let event = to_json(py, &py_event).map_err(|e| e.to_pyerr(py))?;
+    f(event, LambdaContext::new(&py, &py_context)?)
+        .map(|v| v.into_value_option())
+        .map_err(|e| PyErr {
+            ptype: cpython::exc::RuntimeError::type_object(py).into_object(),
+            pvalue: Some(PyUnicode::new(py, &format!("{:?}", e)).into_object()),
+            ptraceback: None,
+        }).and_then(|v| match v.map(|v| from_json(py, v)) {
+            Some(Err(e)) => Err(e.to_pyerr(py)),
+            Some(Ok(v)) => Ok(Some(v)),
+            None => Ok(None),
+        })
+        .map(|v| v.unwrap_or_else(|| py.None()))
 }
 
 #[macro_export]
