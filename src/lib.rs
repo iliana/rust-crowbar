@@ -238,7 +238,7 @@ pub fn handler<F>(py: Python, f: F, py_event: PyObject, py_context: PyObject) ->
 /// Macro to wrap a Lambda function handler.
 ///
 /// Lambda functions accept two arguments (the event, a serde_json `Value`, and the context, a
-/// `LambdaContext`) and returns a vluae (a serde_json `Value`). The function signature should look
+/// `LambdaContext`) and returns a value (a serde_json `Value`). The function signature should look
 /// like:
 ///
 /// ```rust,ignore
