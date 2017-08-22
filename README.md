@@ -43,7 +43,7 @@ You can configure cargo to build a dynamic library with the following. Note that
 ```toml
 [lib]
 name = "lambda"
-crate-type = ["dylib"]
+crate-type = ["cdylib"]
 ```
 
 `cargo build` will now build a `liblambda.so`. Put this in a zip file and upload it to an AWS Lambda function. You will need to use the Python 2.7 execution environment with the handler configured as `liblambda.handler`.
