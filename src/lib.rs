@@ -231,7 +231,8 @@ pub fn handler<F, O>(py: Python, f: F, py_event: PyObject, py_context: PyObject)
         }).and_then(|v| serde_json::value::to_value(v)
             .map_err(cpython_json::JsonError::SerdeJsonError)
             .map_err(|e| e.to_pyerr(py))
-            .and_then(|v| from_json(py, v).map_err(|e| e.to_pyerr(py)))
+        ).and_then(|v| from_json(py, v)
+            .map_err(|e| e.to_pyerr(py))
         )
 }
 
