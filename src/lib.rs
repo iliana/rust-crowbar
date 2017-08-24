@@ -80,7 +80,7 @@ pub use serde_json::value::Value;
 ///
 /// If an error is thrown, it is converted to a Python `RuntimeError`, and the `Debug` string for
 /// the `Error` returned is used as the value.
-pub type LambdaResult<T> = Result<T, Box<std::error::Error>>;
+pub type LambdaResult<T = Value> = Result<T, Box<std::error::Error>>;
 
 use cpython::{Python, PyUnicode, PyTuple, PyErr, PythonObject, PythonObjectWithTypeObject,
               ObjectProtocol};
