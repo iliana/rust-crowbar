@@ -46,7 +46,7 @@
 //! ```toml
 //! [lib]
 //! name = "lambda"
-//! crate-type = ["dylib"]
+//! crate-type = ["cdylib"]
 //! ```
 //!
 //! `cargo build` will now build a `liblambda.so`. Put this in a zip file and upload it to an AWS
