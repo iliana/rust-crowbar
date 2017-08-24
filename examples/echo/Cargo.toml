@@ -2,6 +2,7 @@
 name = "lambda-echo"
 version = "0.2.0"
 authors = ["Iliana Weller <ilianaw@buttslol.net>"]
+publish = false
 
 [lib]
 name = "lambda"

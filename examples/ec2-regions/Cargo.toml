@@ -2,13 +2,14 @@
 name = "lambda-ec2-regions"
 version = "0.2.0"
 authors = ["Iliana Weller <ilianaw@buttslol.net>"]
+publish = false
 
 [lib]
 name = "lambda"
 crate-type = ["cdylib"]
 
 [dependencies]
-# Normally you'd write: crowbar = "0.1"
+# Normally you'd write: crowbar = "0.2"
 crowbar = { path = "../..", version = "0.2", default-features = false }
 cpython = { version = "0.1", default-features = false }
 rusoto_core = "0.25"
