@@ -3,7 +3,7 @@ extern crate crowbar;
 #[macro_use]
 extern crate cpython;
 
-lambda!(|event, context| -> crowbar::LambdaResult {
+lambda!(|event, context| {
     println!("hello cloudwatch logs from {} version {}, {} ms remaining",
              context.function_name(),
              context.function_version(),
