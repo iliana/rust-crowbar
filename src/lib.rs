@@ -66,12 +66,13 @@
 extern crate cpython;
 extern crate cpython_json;
 extern crate serde_json;
+extern crate serde;
 
 #[doc(hidden)]
 pub use cpython::{PyResult, PyObject};
 pub use serde_json::value::Value;
 
-/// Result object that accepts `Ok(Value)` or any `Err(Error)`.
+/// Result object that accepts `Ok(T)` or any `Err(Error)`.
 ///
 /// crowbar uses [the `Box<Error>` method of error handling]
 /// (https://doc.rust-lang.org/stable/book/error-handling.html#error-handling-with-boxerror) so
@@ -79,7 +80,7 @@ pub use serde_json::value::Value;
 ///
 /// If an error is thrown, it is converted to a Python `RuntimeError`, and the `Debug` string for
 /// the `Error` returned is used as the value.
-pub type LambdaResult = Result<Value, Box<std::error::Error>>;
+pub type LambdaResult<T> = Result<T, Box<std::error::Error>>;
 
 use cpython::{Python, PyUnicode, PyTuple, PyErr, PythonObject, PythonObjectWithTypeObject,
               ObjectProtocol};
@@ -217,47 +218,21 @@ impl std::error::Error for ContextError {
 }
 
 #[doc(hidden)]
-pub trait IntoValueOption {
-    fn into_value_option(self) -> Option<Value>;
-}
-
-impl IntoValueOption for Option<Value> {
-    fn into_value_option(self) -> Option<Value> {
-        self
-    }
-}
-
-impl IntoValueOption for Value {
-    fn into_value_option(self) -> Option<Value> {
-        Some(self)
-    }
-}
-
-impl IntoValueOption for () {
-    fn into_value_option(self) -> Option<Value> {
-        None
-    }
-}
-
-#[doc(hidden)]
-pub fn handler<F, O, E>(py: Python, f: F, py_event: PyObject, py_context: PyObject) -> PyResult<PyObject>
-    where F: FnOnce(Value, LambdaContext) -> Result<O, E>,
-          E: std::fmt::Debug,
-          O: IntoValueOption
+pub fn handler<F, O>(py: Python, f: F, py_event: PyObject, py_context: PyObject) -> PyResult<PyObject>
+    where F: FnOnce(Value, LambdaContext) -> LambdaResult<O>,
+          O: serde::Serialize
 {
     let event = to_json(py, &py_event).map_err(|e| e.to_pyerr(py))?;
     f(event, LambdaContext::new(&py, &py_context)?)
-        .map(|v| v.into_value_option())
         .map_err(|e| PyErr {
             ptype: cpython::exc::RuntimeError::type_object(py).into_object(),
             pvalue: Some(PyUnicode::new(py, &format!("{:?}", e)).into_object()),
             ptraceback: None,
-        }).and_then(|v| match v.map(|v| from_json(py, v)) {
-            Some(Err(e)) => Err(e.to_pyerr(py)),
-            Some(Ok(v)) => Ok(Some(v)),
-            None => Ok(None),
-        })
-        .map(|v| v.unwrap_or_else(|| py.None()))
+        }).and_then(|v| serde_json::value::to_value(v)
+            .map_err(cpython_json::JsonError::SerdeJsonError)
+            .map_err(|e| e.to_pyerr(py))
+            .and_then(|v| from_json(py, v).map_err(|e| e.to_pyerr(py)))
+        )
 }
 
 #[macro_export]
