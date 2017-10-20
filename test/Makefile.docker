@@ -1,0 +1,28 @@
+PY2=python2.7
+PY3=python3.6
+PY3SETUP=yum install -q -y python36
+IMAGE=amazonlinux:latest
+DEST   := /code
+VOLUME := -v $(shell pwd):$(DEST):ro -v ~/.aws/:/root/.aws/:ro
+DOCKER := docker run -it
+BUILDER := ilianaw/crowbar-builder
+
+%.zip:
+	docker run --rm -a stderr -a stdout -v $(shell pwd)/../:$(DEST):ro --entrypoint "/bin/bash" $(BUILDER) -c "cd examples/$*; build.sh" > $@
+
+build-ec2-regions: ec2-regions.zip
+	@$(eval ENVFLAG := -e EXAMPLE=ec2_regions)
+	unzip $<
+build-echo: echo.zip
+	@$(eval ENVFLAG := -e EXAMPLE=echo)
+	unzip $<
+
+test-docker:
+	-$(DOCKER) $(ENVFLAG) $(VOLUME) $(IMAGE) $(PY2) $(DEST)/test_liblambda.py
+	-$(DOCKER) $(ENVFLAG) $(VOLUME) $(IMAGE) /bin/bash -c "$(PY3SETUP); $(PY3) $(DEST)/test_liblambda.py"
+	-rm liblambda.so
+
+test-all-docker:
+	@for target in $(EXAMPLES); do $(MAKE) build-$$target test-docker; done
+
+.PHONY: build-echo build-ec2-regions test-docker test-all-docker

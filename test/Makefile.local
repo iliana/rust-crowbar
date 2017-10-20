@@ -1,0 +1,42 @@
+LIBLAMBDA := liblambda.so
+EXPECTED := so
+EXAMPLES := echo ec2-regions
+
+ifeq ($(shell uname -s),Darwin)
+	SUFFIX := dylib
+else
+	SUFFIX := EXPECTED
+endif
+
+%.$(EXPECTED):
+	@cd ../examples/$(subst .$(EXPECTED),,$@) && cargo build --release
+	@cp ../examples/$(subst .$(EXPECTED),,$@)/target/release/liblambda.$(SUFFIX) $@
+
+echo: echo.$(EXPECTED)
+	@echo "Testing the echo example:"
+	@echo "==============================================================================="
+	@echo
+	-@unlink $(LIBLAMBDA) 2> /dev/null || true
+	@$(eval ENVFLAG := EXAMPLE=echo)
+	@ln -s echo.$(EXPECTED) $(LIBLAMBDA)
+
+ec2-regions: ec2-regions.$(EXPECTED)
+	@echo "Testing the ec2-region example:"
+	@echo "==============================================================================="
+	@echo
+	-@unlink $(LIBLAMBDA) 2> /dev/null || true
+	@$(eval ENVFLAG := EXAMPLE=ec2_regions)
+	@ln -s ec2-regions.$(EXPECTED) $(LIBLAMBDA)
+
+test-local: 
+	@$(ENVFLAG) python2 test_liblambda.py
+	@$(ENVFLAG) python3 test_liblambda.py
+	-@unlink $(LIBLAMBDA)
+	-@echo
+	-@echo
+	-@echo
+
+test-all-local:
+	@for target in $(EXAMPLES); do $(MAKE) $$target test-local;  done
+
+.PHONY: echo ec2-regions test-local test-all-local
