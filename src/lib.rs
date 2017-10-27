@@ -65,11 +65,11 @@
 
 extern crate cpython;
 extern crate cpython_json;
-extern crate serde_json;
 extern crate serde;
+extern crate serde_json;
 
 #[doc(hidden)]
-pub use cpython::{PyResult, PyObject};
+pub use cpython::{PyObject, PyResult};
 pub use serde_json::value::Value;
 
 /// Result object that accepts `Ok(T)` or any `Err(Error)`.
@@ -82,8 +82,8 @@ pub use serde_json::value::Value;
 /// the `Error` returned is used as the value.
 pub type LambdaResult<T = Value> = Result<T, Box<std::error::Error>>;
 
-use cpython::{Python, PyUnicode, PyTuple, PyErr, PythonObject, PythonObjectWithTypeObject,
-              ObjectProtocol};
+use cpython::{ObjectProtocol, PyErr, PyTuple, PyUnicode, Python, PythonObject,
+              PythonObjectWithTypeObject};
 use cpython_json::{from_json, to_json};
 
 /// Provides a view into the `context` object available to Lambda functions.
@@ -105,13 +105,15 @@ impl<'a> LambdaContext<'a> {
             }
         }
 
-        let string_storage: [String; 7] = [str_attr!("function_name"),
-                                           str_attr!("function_version"),
-                                           str_attr!("invoked_function_arn"),
-                                           str_attr!("memory_limit_in_mb"),
-                                           str_attr!("aws_request_id"),
-                                           str_attr!("log_group_name"),
-                                           str_attr!("log_stream_name")];
+        let string_storage: [String; 7] = [
+            str_attr!("function_name"),
+            str_attr!("function_version"),
+            str_attr!("invoked_function_arn"),
+            str_attr!("memory_limit_in_mb"),
+            str_attr!("aws_request_id"),
+            str_attr!("log_group_name"),
+            str_attr!("log_stream_name"),
+        ];
 
         Ok(LambdaContext {
             py: py,
@@ -178,10 +180,12 @@ impl<'a> LambdaContext<'a> {
     /// should simply call this as `context.get_remaining_time_in_millis()?` in your function.
     pub fn get_remaining_time_in_millis(&self) -> Result<u64, ContextError> {
         self.py_context
-            .call_method(*self.py,
-                         "get_remaining_time_in_millis",
-                         PyTuple::new(*self.py, &[]),
-                         None)
+            .call_method(
+                *self.py,
+                "get_remaining_time_in_millis",
+                PyTuple::new(*self.py, &[]),
+                None,
+            )
             .and_then(|x| x.extract::<u64>(*self.py))
             .map_err(|_| ContextError::GetRemainingTimeFailed)
     }
@@ -218,22 +222,31 @@ impl std::error::Error for ContextError {
 }
 
 #[doc(hidden)]
-pub fn handler<F, O>(py: Python, f: F, py_event: PyObject, py_context: PyObject) -> PyResult<PyObject>
-    where F: FnOnce(Value, LambdaContext) -> LambdaResult<O>,
-          O: serde::Serialize
+pub fn handler<F, O>(
+    py: Python,
+    f: F,
+    py_event: PyObject,
+    py_context: PyObject,
+) -> PyResult<PyObject>
+where
+    F: FnOnce(Value, LambdaContext) -> LambdaResult<O>,
+    O: serde::Serialize,
 {
     let event = to_json(py, &py_event).map_err(|e| e.to_pyerr(py))?;
     f(event, LambdaContext::new(&py, &py_context)?)
-        .map_err(|e| PyErr {
-            ptype: cpython::exc::RuntimeError::type_object(py).into_object(),
-            pvalue: Some(PyUnicode::new(py, &format!("{:?}", e)).into_object()),
-            ptraceback: None,
-        }).and_then(|v| serde_json::value::to_value(v)
-            .map_err(cpython_json::JsonError::SerdeJsonError)
-            .map_err(|e| e.to_pyerr(py))
-        ).and_then(|v| from_json(py, v)
-            .map_err(|e| e.to_pyerr(py))
-        )
+        .map_err(|e| {
+            PyErr {
+                ptype: cpython::exc::RuntimeError::type_object(py).into_object(),
+                pvalue: Some(PyUnicode::new(py, &format!("{:?}", e)).into_object()),
+                ptraceback: None,
+            }
+        })
+        .and_then(|v| {
+            serde_json::value::to_value(v)
+                .map_err(cpython_json::JsonError::SerdeJsonError)
+                .map_err(|e| e.to_pyerr(py))
+        })
+        .and_then(|v| from_json(py, v).map_err(|e| e.to_pyerr(py)))
 }
 
 #[macro_export]
@@ -289,12 +302,19 @@ pub fn handler<F, O>(py: Python, f: F, py_event: PyObject, py_context: PyObject)
 /// # }
 /// ```
 macro_rules! lambda {
-    (@module ($module:ident, $py2:ident, $py3:ident) @handlers ($($handler:expr => $target:expr),*)) => {
+    (@module ($module:ident, $py2:ident, $py3:ident)
+     @handlers ($($handler:expr => $target:expr),*)) => {
         py_module_initializer!($module, $py2, $py3, |py, m| {
             $(
-            m.add(py, $handler, py_fn!(py, x(event: $crate::PyObject, context: $crate::PyObject) -> $crate::PyResult<$crate::PyObject> {
-                $crate::handler(py, $target, event, context)
-            }))?;
+                m.add(py, $handler, py_fn!(
+                    py,
+                    x(
+                        event: $crate::PyObject,
+                        context: $crate::PyObject
+                    ) -> $crate::PyResult<$crate::PyObject> {
+                        $crate::handler(py, $target, event, context)
+                    }
+                ))?;
             )*
             Ok(())
         });
@@ -309,7 +329,8 @@ macro_rules! lambda {
     };
 
     ($($handler:expr => $target:expr),*) => {
-        lambda! { @module (liblambda, initliblambda, PyInit_liblambda) @handlers ($($handler => $target),*) }
+        lambda! { @module (liblambda, initliblambda, PyInit_liblambda)
+                  @handlers ($($handler => $target),*) }
     };
 
     ($($handler:expr => $target:expr,)*) => {
