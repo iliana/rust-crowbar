@@ -7,8 +7,8 @@
 //!
 //! ```toml
 //! [dependencies]
-//! crowbar = "0.1"
-//! cpython = { version = "*", default-features = false, features = ["python27-sys"] }
+//! crowbar = "0.2"
+//! cpython = "0.1"
 //! ```
 //!
 //! Use macros from both crates:
@@ -40,8 +40,9 @@
 //! a dynamic library with the necessary functions for CPython to run. The `lambda!` macro does
 //! most of this for you, but cargo still needs to know what to do.
 //!
-//! You can configure cargo to build a dynamic library with the following. Note that the library
-//! name *must* be `lambda`.
+//! You can configure cargo to build a dynamic library with the following. If you're using the
+//! `lambda!` macro as above, you need to use `lambda` for the library name (see the documentation
+//! for `lambda!` if you want to use something else).
 //!
 //! ```toml
 //! [lib]
@@ -50,18 +51,38 @@
 //! ```
 //!
 //! `cargo build` will now build a `liblambda.so`. Put this in a zip file and upload it to an AWS
-//! Lambda function. You will need to use the Python 2.7 execution environment with the handler
-//! configured as `liblambda.handler`.
+//! Lambda function. Use the Python 3.6 execution environment with the handler configured as
+//! `liblambda.handler`.
 //!
-//! For best results, it's important to build the shared library on a system using the same
-//! libraries as the Lambda execution environment. Since Lambda uses Amazon Linux, the easiest way
-//! to do this is to use an [EC2 instance](https://aws.amazon.com/amazon-linux-ami/) or a [Docker
+//! Because you're building a dynamic library, other libraries that you're dynamically linking
+//! against need to also be in the Lambda execution environment. The easiest way to do this is
+//! building in an environment similar to Lambda's, such as Amazon Linux. You can use an [EC2
+//! instance](https://aws.amazon.com/amazon-linux-ami/) or a [Docker
 //! container](https://hub.docker.com/_/amazonlinux/).
 //!
 //! The `builder` directory of the [crowbar git repo](https://github.com/ilianaw/rust-crowbar)
 //! contains a `Dockerfile` with Rust set up and a build script to dump a zip file containing a
-//! stripped shared library to stdout. Documentation for that is available at
+//! stripped shared library to stdout. Documentation for using that is available at
 //! [ilianaw/crowbar-builder on Docker Hub](https://hub.docker.com/r/ilianaw/crowbar-builder/).
+//!
+//! # Building for Python 2.7
+//!
+//! **Python 2.7 support for crowbar is deprecated and will be removed in a future release, and at
+//! least by crowbar 1.0.**
+//!
+//! There are a multitude of reasons to not use Python 2; even more so for projects written in Rust
+//! that happen to use Python as a shim. When crowbar was first released, AWS Lambda did not yet
+//! provide a Python 3 execution environment; it would not have Python 2.7 support today if
+//! timelines had crossed better.
+//!
+//! Nonetheless, here's the incantation you need in your Cargo.toml to build for the Python 2.7
+//! execution environment:
+//!
+//! ```toml
+//! [dependencies]
+//! crowbar = { version = "0.2", default-features = false }
+//! cpython = { version = "0.1", default-features = false, features = ["python27-sys"] }
+//! ```
 
 extern crate cpython;
 extern crate cpython_json;
@@ -89,7 +110,7 @@ use cpython_json::{from_json, to_json};
 /// Provides a view into the `context` object available to Lambda functions.
 ///
 /// Context object methods and attributes are documented at [The Context Object (Python)]
-/// (https://docs.aws.amazon.com/lambda/latest/dg/python-context-object.html) from the AWS Lambda
+/// (https://docs.aws.amazon.com/lambda/latest/dg/python-context-object.html) in the AWS Lambda
 /// docs.
 pub struct LambdaContext<'a> {
     py: &'a Python<'a>,
@@ -299,6 +320,47 @@ where
 /// }
 ///
 /// lambda!(my_handler);
+/// # }
+/// ```
+///
+/// # Multiple handlers
+///
+/// You can define multiple handlers in the same module in a way similar to `match`:
+///
+/// ```rust
+/// # #[macro_use(lambda)] extern crate crowbar;
+/// # #[macro_use] extern crate cpython;
+/// # fn main() {
+/// lambda! {
+///     "one" => |event, context| { Ok("one") },
+///     "two" => |event, context| { Ok(2) },
+/// };
+/// # }
+/// ```
+///
+/// # Changing the dynamic library name
+///
+/// If you need to change the name of the built dynamic library, you first need to change the
+/// `[lib]` section in Cargo.toml:
+///
+/// ```toml
+/// [lib]
+/// name = "kappa"
+/// crate-type = ["cdylib"]
+/// ```
+///
+/// You then also need to change the names of the library symbols, which you can do by extending
+/// upon the multiple handler version of `lambda!`:
+///
+/// ```rust
+/// # #[macro_use(lambda)] extern crate crowbar;
+/// # #[macro_use] extern crate cpython;
+/// # fn main() {
+/// lambda! {
+///     crate (libkappa, initlibkappa, PyInit_libkappa) {
+///         "handler" => |event, context| { Ok("hi from libkappa") }
+///     }
+/// };
 /// # }
 /// ```
 macro_rules! lambda {
