@@ -1,3 +1,15 @@
+# This Cargo.toml has some definitions necessary for testing development of crowbar itself.
+#
+# If you're using this as a reference for a new Python 3.6 project, consider doing the following:
+#
+# - Change the name, version, and authors under [package]
+# - Use this as your [dependencies] section:
+#   crowbar = "0.2"
+#   cpython = "0.1"
+# - Remove the [features] section
+#
+# If you need to use Python 2.7 refer to the crate-level documentation.
+
 [package]
 name = "lambda-ec2-regions"
 version = "0.2.0"
@@ -9,8 +21,7 @@ name = "lambda"
 crate-type = ["cdylib"]
 
 [dependencies]
-# Normally you'd write: crowbar = "0.2"
-crowbar = { path = "../..", version = "0.2" }
+crowbar = { path = "../..", version = "0.2", default-features = false }
 cpython = { version = "0.1", default-features = false }
 rusoto_core = "0.25"
 rusoto_ec2 = "0.25"
