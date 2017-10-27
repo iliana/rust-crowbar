@@ -23,8 +23,8 @@ crate-type = ["cdylib"]
 [dependencies]
 crowbar = { path = "../..", version = "0.2", default-features = false }
 cpython = { version = "0.1", default-features = false }
-rusoto_core = "0.25"
-rusoto_ec2 = "0.25"
+rusoto_core = "0.28"
+rusoto_ec2 = "0.28"
 
 [features]
 default = ["cpython/python3-sys"]
