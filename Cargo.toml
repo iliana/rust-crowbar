@@ -8,7 +8,7 @@ repository = "https://github.com/ilianaw/rust-crowbar"
 documentation = "https://docs.rs/crowbar"
 keywords = ["aws", "lambda"]
 license = "MIT/Apache-2.0"
-exclude = [".gitignore", "builder", "examples", "test"]
+exclude = [".gitignore", "builder/**", "examples/**", "test/**"]
 
 [dependencies]
 serde = "1.0"
