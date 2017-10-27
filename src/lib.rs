@@ -185,10 +185,6 @@ impl<'a> LambdaContext<'a> {
 
     /// The name of the CloudWatch log stream where you can find logs written by your Lambda
     /// function. The log stream may or may not change for each invocation of the Lambda function.
-    ///
-    /// The value is null if your Lambda function is unable to create a log stream, which can
-    /// happen if the execution role that grants necessary permissions to the Lambda function does
-    /// not include permissions for the CloudWatch Logs actions.
     pub fn log_stream_name(&self) -> &str {
         &self.string_storage[6]
     }
