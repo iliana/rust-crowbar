@@ -51,3 +51,14 @@ crate-type = ["cdylib"]
 Because you're building a dynamic library, other libraries that you're dynamically linking against need to also be in the Lambda execution environment. The easiest way to do this is building in an environment similar to Lambda's, such as Amazon Linux. You can use an [EC2 instance](https://aws.amazon.com/amazon-linux-ami/) or a [Docker container](https://hub.docker.com/_/amazonlinux/).
 
 The `builder` directory of the [crowbar git repo](https://github.com/ilianaw/rust-crowbar) contains a `Dockerfile` with Rust set up and a build script to dump a zip file containing a stripped shared library to stdout. Documentation for using that is available at [ilianaw/crowbar-builder on Docker Hub](https://hub.docker.com/r/ilianaw/crowbar-builder/).
+
+# Contributing
+
+crowbar welcomes your contributions:
+
+* Let us know if you use crowbar in production
+* If you have a bug report or an idea, [submit an issue](https://github.com/ilianaw/rust-crowbar/issues)
+* If you want something to work on, [check the issues list](https://github.com/ilianaw/rust-crowbar/issues)
+* Please submit non-trivial changes as an issue first; send a pull request when the implementation is agreed on
+
+crowbar uses a [code of conduct](https://github.com/ilianaw/rust-crowbar/blob/master/CODE_OF_CONDUCT.md); please read it.
