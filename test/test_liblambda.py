@@ -147,7 +147,7 @@ class TestCrowbar(unittest.TestCase):
         output = consume(stdout)
         self.assertEqual(output, "", "Unexpected STDOUT output")
 
-    @unittest.skipIf(liblambda is None, "Could not import liblamba")
+    @unittest.skipIf(liblambda is None, "Could not import liblambda")
     @unittest.skipUnless(os.environ["EXAMPLE"] == "echo", "DISABLED")
     def test_02_echo_long_timeout(self):
         # This test is a duplicate of test_01_echo, but with a longer deadline. Not necessarily

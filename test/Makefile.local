@@ -5,7 +5,7 @@ EXAMPLES := echo ec2-regions
 ifeq ($(shell uname -s),Darwin)
 	SUFFIX := dylib
 else
-	SUFFIX := EXPECTED
+	SUFFIX := $(EXPECTED)
 endif
 
 %.$(EXPECTED):
