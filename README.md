@@ -52,7 +52,7 @@ Because you're building a dynamic library, other libraries that you're dynamical
 
 The `builder` directory of the [crowbar git repo](https://github.com/ilianaw/rust-crowbar) contains a `Dockerfile` with Rust set up and a build script to dump a zip file containing a stripped shared library to stdout. Documentation for using that is available at [ilianaw/crowbar-builder on Docker Hub](https://hub.docker.com/r/ilianaw/crowbar-builder/).
 
-# Contributing
+## Contributing
 
 crowbar welcomes your contributions:
 
@@ -61,4 +61,4 @@ crowbar welcomes your contributions:
 * If you want something to work on, [check the issues list](https://github.com/ilianaw/rust-crowbar/issues)
 * Please submit non-trivial changes as an issue first; send a pull request when the implementation is agreed on
 
-crowbar uses a [code of conduct](https://github.com/ilianaw/rust-crowbar/blob/master/CODE_OF_CONDUCT.md); please read it.
+crowbar follows a [code of conduct](https://github.com/ilianaw/rust-crowbar/blob/master/CODE_OF_CONDUCT.md); please read it.
