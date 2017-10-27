@@ -11,8 +11,8 @@ Add both crowbar and cpython to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-crowbar = "0.1"
-cpython = { version = "*", default-features = false, features = ["python27-sys"] }
+crowbar = "0.2"
+cpython = "0.1"
 ```
 
 Use macros from both crates:
@@ -38,7 +38,7 @@ lambda!(|event, context| {
 
 For your code to be usable in AWS Lambda's Python execution environment, you need to compile to a dynamic library with the necessary functions for CPython to run. The `lambda!` macro does most of this for you, but cargo still needs to know what to do.
 
-You can configure cargo to build a dynamic library with the following. Note that the library name *must* be `lambda`.
+You can configure cargo to build a dynamic library with the following. If you're using the `lambda!` macro as above, you need to use `lambda` for the library name (see the documentation for `lambda!` if you want to use something else).
 
 ```toml
 [lib]
@@ -46,8 +46,8 @@ name = "lambda"
 crate-type = ["cdylib"]
 ```
 
-`cargo build` will now build a `liblambda.so`. Put this in a zip file and upload it to an AWS Lambda function. You will need to use the Python 2.7 execution environment with the handler configured as `liblambda.handler`.
+`cargo build` will now build a `liblambda.so`. Put this in a zip file and upload it to an AWS Lambda function. Use the Python 3.6 execution environment with the handler configured as `liblambda.handler`.
 
-For best results, it's important to build the shared library on a system using the same libraries as the Lambda execution environment. Since Lambda uses Amazon Linux, the easiest way to do this is to use an [EC2 instance](https://aws.amazon.com/amazon-linux-ami/) or a [Docker container](https://hub.docker.com/_/amazonlinux/).
+Because you're building a dynamic library, other libraries that you're dynamically linking against need to also be in the Lambda execution environment. The easiest way to do this is building in an environment similar to Lambda's, such as Amazon Linux. You can use an [EC2 instance](https://aws.amazon.com/amazon-linux-ami/) or a [Docker container](https://hub.docker.com/_/amazonlinux/).
 
-The `builder` directory of the [crowbar git repo](https://github.com/ilianaw/rust-crowbar) contains a `Dockerfile` with Rust set up and a build script to dump a zip file containing a stripped shared library to stdout. Documentation for that is available at [ilianaw/crowbar-builder on Docker Hub](https://hub.docker.com/r/ilianaw/crowbar-builder/).
+The `builder` directory of the [crowbar git repo](https://github.com/ilianaw/rust-crowbar) contains a `Dockerfile` with Rust set up and a build script to dump a zip file containing a stripped shared library to stdout. Documentation for using that is available at [ilianaw/crowbar-builder on Docker Hub](https://hub.docker.com/r/ilianaw/crowbar-builder/).
