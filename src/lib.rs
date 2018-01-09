@@ -89,18 +89,65 @@ extern crate cpython_json;
 extern crate serde;
 extern crate serde_json;
 
+#[cfg(feature = "error-chain")]
+#[macro_use]
+extern crate error_chain;
+
+#[cfg(feature = "error-chain")]
+mod errors {
+    error_chain!{
+        errors {
+            PyException(message: String) {
+                description("Python Exception")
+                display("Python Exception: {:?}", message)
+            }
+            RustError {
+                description("Rust Exception")
+                display("Rust Exception")
+            }
+        }
+    }
+}
+#[cfg(feature = "error-chain")]
+pub use errors::ErrorKind::{PyException, RustError};
+#[cfg(feature = "error-chain")]
+pub use errors::Error;
+
 #[doc(hidden)]
 pub use cpython::{PyObject, PyResult};
 pub use serde_json::value::Value;
 
 /// Result object that accepts `Ok(T)` or any `Err(Error)`.
 ///
-/// crowbar uses [the `Box<Error>` method of error handling]
+/// crowbar uses [error-chain](https://crates.io/crates/error-chain) under feature error-chain
+///
+/// A PyException can be returned as an error, it is converted to a Python `Exception`, and the
+/// message will be used as the exception's arguments.
+/// If an error is thrown, it is converted to a Python `RuntimeError`, and the `Debug` string for
+/// the `Error` returned is used as the value.
+///
+/// ```rust
+/// #[macro_use(lambda)] extern crate crowbar;
+/// #[macro_use] extern crate cpython;
+/// lambda!(|event, _context| {
+///     match event["authorizationToken"].as_str() {
+///         Some("unauthorized") => Err(crowbar::PyException("Unauthorized".to_string()).into()),
+///         Some(_) => Ok(event),
+///         None => Err("missing token".into()),
+///     }
+/// });
+/// ```
+#[cfg(feature = "error-chain")]
+pub type LambdaResult<T = Value> = errors::Result<T>;
+/// Result object that accepts `Ok(T)` or any `Err(Error)`.
+///
+/// by default, crowbar uses [the `Box<Error>` method of error handling]
 /// (https://doc.rust-lang.org/stable/book/error-handling.html#error-handling-with-boxerror) so
 /// that any `Error` can be thrown within your Lambda function.
 ///
 /// If an error is thrown, it is converted to a Python `RuntimeError`, and the `Debug` string for
 /// the `Error` returned is used as the value.
+#[cfg(not(feature = "error-chain"))]
 pub type LambdaResult<T = Value> = Result<T, Box<std::error::Error>>;
 
 use cpython::{ObjectProtocol, PyErr, PyTuple, PyUnicode, Python, PythonObject,
@@ -251,13 +298,19 @@ where
 {
     let event = to_json(py, &py_event).map_err(|e| e.to_pyerr(py))?;
     f(event, LambdaContext::new(&py, &py_context)?)
-        .map_err(|e| {
-            PyErr {
+        .map_err(|e| { match e {
+            #[cfg(feature = "error-chain")]
+            Error(PyException(message), _) => PyErr {
+                ptype: cpython::exc::Exception::type_object(py).into_object(),
+                pvalue: Some(PyUnicode::new(py, &message).into_object()),
+                ptraceback: None,
+            },
+            _ => PyErr {
                 ptype: cpython::exc::RuntimeError::type_object(py).into_object(),
                 pvalue: Some(PyUnicode::new(py, &format!("{:?}", e)).into_object()),
                 ptraceback: None,
             }
-        })
+        }})
         .and_then(|v| {
             serde_json::value::to_value(v)
                 .map_err(cpython_json::JsonError::SerdeJsonError)
