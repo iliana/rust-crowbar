@@ -241,7 +241,7 @@ impl<'a> LambdaContext<'a> {
     ///
     /// This returns `ContextError::GetRemainingTimeFailed` if crowbar is unable to call the method
     /// or cast it to a `u64` from the Python object. This should generally never happen, so you
-    /// should simply call this as `context.get_remaining_time_in_millis()?` in your function.
+    /// could call this as `context.get_remaining_time_in_millis().unwrap_or(0)` in your function.
     pub fn get_remaining_time_in_millis(&self) -> Result<u64, ContextError> {
         self.py_context
             .call_method(
