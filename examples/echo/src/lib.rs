@@ -8,7 +8,7 @@ lambda!(|event, context| {
         "hello cloudwatch logs from {} version {}, {} ms remaining",
         context.function_name(),
         context.function_version(),
-        context.get_remaining_time_in_millis()?
+        context.get_remaining_time_in_millis().unwrap_or(0)
     );
     Ok(event)
 });
