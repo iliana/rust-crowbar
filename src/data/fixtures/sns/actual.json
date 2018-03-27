@@ -1,0 +1,22 @@
+{
+  "Records": [
+    {
+      "EventSource": "aws:sns",
+      "EventSubscriptionArn": "arn:aws:sns:us-east-1:961179389914:api-naftuli-wtf:6fbc6fe8-a76a-4377-8fbb-3f8cd8e82959",
+      "EventVersion": "1.0",
+      "Sns": {
+        "Message": "{\"test\": true}",
+        "MessageAttributes": {},
+        "MessageId": "26c8653c-9552-5f96-95fa-3629e96eb125",
+        "Signature": "Z732pFicUr2YIc2uKaq8ynD0JeVTwm0tNQOnhXT2qHNtJD+OvpjJ0j4dZsSXKA1ElG3vOE/Isqp1cC2MZ9wii55E7Zvpx1avU9n46TGKpEnjeEblSqU2q+dwcoeyULgURuTF5lwRR7jJYoWBOF/1RdrF53CMWha43vvNhs/S6vnNkdvQKNCGE6+YmHu11FUuw43MUM8DCH5Fqrneq/I6al6ZaMLfotjvMlqkkEbfAXPvyR6WQl+Dz3TQwBhlW5ZwjDAJYYARwGjVtTq6aVcEIWLG6H6QojR4e1JjbpE1kQEJJoZjUvuYXo7H6aC0KdJH4J7eFXfWH2f+ceNn1RWKVw==",
+        "SignatureVersion": "1",
+        "SigningCertUrl": "https://sns.us-east-1.amazonaws.com/SimpleNotificationService-433026a4050d206028891664da859041.pem",
+        "Subject": null,
+        "Timestamp": "2018-03-04T04:45:48.369Z",
+        "TopicArn": "arn:aws:sns:us-east-1:961179389914:api-naftuli-wtf",
+        "Type": "Notification",
+        "UnsubscribeUrl": "https://sns.us-east-1.amazonaws.com/?Action=Unsubscribe&SubscriptionArn=arn:aws:sns:us-east-1:961179389914:api-naftuli-wtf:6fbc6fe8-a76a-4377-8fbb-3f8cd8e82959"
+      }
+    }
+  ]
+}

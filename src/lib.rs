@@ -84,14 +84,22 @@
 //! cpython = { version = "0.1", default-features = false, features = ["python27-sys"] }
 //! ```
 
+extern crate chrono;
 extern crate cpython;
 extern crate cpython_json;
 extern crate serde;
+#[macro_use]
+extern crate serde_aux;
+#[macro_use]
+extern crate serde_derive;
 extern crate serde_json;
+extern crate serde_qs;
 
 #[cfg(feature = "error-chain")]
 #[macro_use]
 extern crate error_chain;
+
+pub mod data;
 
 #[cfg(feature = "error-chain")]
 mod errors {
