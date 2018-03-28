@@ -1,5 +1,6 @@
 # rust-crowbar
 
+[![Build Status][travis.svg]][travis]
 [![crates.io](https://img.shields.io/crates/v/crowbar.svg)](https://crates.io/crates/crowbar)
 [![docs.rs](https://docs.rs/crowbar/badge.svg)](https://docs.rs/crowbar)
 
@@ -62,3 +63,6 @@ crowbar welcomes your contributions:
 * Please submit non-trivial changes as an issue first; send a pull request when the implementation is agreed on
 
 crowbar follows a [code of conduct](https://github.com/ilianaw/rust-crowbar/blob/master/CODE_OF_CONDUCT.md); please read it.
+
+ [travis]: https://travis-ci.org/ilianaw/rust-crowbar
+ [travis.svg]: https://travis-ci.org/ilianaw/rust-crowbar.svg?branch=master
