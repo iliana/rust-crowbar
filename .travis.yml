@@ -1,0 +1,24 @@
+---
+dist: trusty
+
+language: rust
+
+rust:
+  - stable
+  - beta
+  - nightly
+
+cache: cargo
+
+matrix:
+  allow_failures:
+    - rust: nightly
+  fast_finish: true
+
+install: cargo build --release --verbose
+script: cargo test --verbose
+
+notifications:
+  email:
+    on_success: never
+    on_failure: never
