@@ -1,0 +1,19 @@
+[package]
+name = "lambda-circleci"
+version = "0.1.0"
+authors = [
+  "Iliana Weller <ilianaw@buttslol.net>",
+  "Naftuli Kay <me@naftuli.wtf>"
+]
+publish = false
+
+[lib]
+name = "lambda"
+crate-type = ["cdylib"]
+
+[dependencies]
+crowbar = { version = "0.2", default-features = false }
+cpython = { version = "0.1", default-features = false }
+
+[features]
+default = ["cpython/python3-sys"]

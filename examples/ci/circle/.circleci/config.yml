@@ -1,0 +1,62 @@
+---
+version: 2
+
+jobs:
+  build:
+    machine: true
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+            - v1-project-cache-{{ .Branch }}-{{ .Revision }}
+            - v1-project-cache-{{ .Branch }}
+
+      - run:
+          name: PULL!
+          command: make pull
+
+      - run:
+          name: Test
+          command: make test
+
+      - run:
+          name: Build
+          command: make build
+
+      - save_cache:
+          key: v1-project-cache-{{ .Branch }}-{{ .Revision }}
+          paths:
+            - "~/.cargo"
+            - "~/.cache/cargo"
+            - "./target"
+
+      - save_cache:
+          key: v1-project-cache-{{ .Branch }}
+          paths:
+            - "~/.cargo"
+            - "~/.cache/cargo"
+            - "./target"
+
+  deploy:
+    machine: true
+    steps:
+      - restore_cache:
+          keys:
+            - v1-project-cache-{{ .Branch }}-{{ .Revision }}
+            - v1-project-cache-{{ .Branch }}
+
+      - run:
+          name: Deploy
+          command: make deploy
+
+workflows:
+  version: 2
+  release:
+    jobs:
+      - build
+      - deploy:
+          requires: [build]
+          filters:
+            branches:
+              only: master

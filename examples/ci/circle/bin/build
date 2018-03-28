@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+set -e
+
+USER=circleci
+HOME=/home/circleci
+PATH="$HOME/.cargo/bin:$HOME/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+
+cd $HOME/project
+
+sudo chown -R $USER:$USER target/
+sudo chown -R $USER:$USER $HOME/.cargo/registry
+
+if [ -t 1 ]; then
+  cargo build --lib --release
+else
+  cargo build --lib --release --color never
+fi
+
+~/.local/bin/create-deployment -v target/release/liblambda.so target/deploy
