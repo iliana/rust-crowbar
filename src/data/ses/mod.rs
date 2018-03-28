@@ -1,4 +1,7 @@
 /// Data mapped from: https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-notifications-contents.html
+#[cfg(test)]
+mod tests;
+
 pub mod message;
 
 use super::*;

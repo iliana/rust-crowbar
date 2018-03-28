@@ -1,3 +1,8 @@
+#[cfg(test)]
+mod tests;
+
+pub mod auth;
+
 use chrono::prelude::*;
 use std::fmt;
 use std::collections::HashMap;

@@ -3,18 +3,13 @@
 #[cfg(test)]
 mod tests;
 
-pub mod auth;
+pub mod apigateway;
 pub mod cloudwatch;
-pub mod http;
 pub mod s3;
 pub mod ses;
 pub mod sns;
 
-pub use self::http::HttpEvent;
-pub use self::http::HttpEventRequestContext;
-pub use self::http::HttpMethod;
-pub use self::http::HttpStatus;
-pub use self::http::HttpResponse;
+use self::apigateway::auth;
 
 use chrono::prelude::*;
 
@@ -30,7 +25,7 @@ use serde_json::Map;
 pub enum Event {
     CloudWatch(cloudwatch::Event),
     Auth(auth::Event),
-    Http(HttpEvent),
+    Http(apigateway::HttpEvent),
     Records(Records),
     Unknown(Value),
 }
@@ -47,12 +42,11 @@ pub enum Record {
     Unknown(Value),
 }
 
-/// Due to case variance (eventSource|EventSource), we transform to regular camel case to make
-/// things consistent.
 impl<'de> Deserialize<'de> for Record {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-        where D: Deserializer<'de>
-    {
+            where D: Deserializer<'de> {
+        // due to case variance (eventSource|EventSource), we transform to regular camel case to make
+        // things consistent.
         let mut map = Map::<String, Value>::deserialize(deserializer)?;
         if let Some(event_source) = map.remove("EventSource") {
             map.insert("eventSource".to_owned(), event_source);

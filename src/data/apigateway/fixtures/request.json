@@ -13,7 +13,7 @@
     "Via": "1.1 deadbeefcafebabebeefbeefdeaddead.cloudfront.net (CloudFront)",
     "X-Amz-Cf-Id": "J0YMU-brgNv9hzadv_rjnICwfLCd4-IYjVz55KdZS6fuGB6xkU65WA==",
     "X-Amzn-Trace-Id": "Root=1-5a9095d0-2459dc8c2eead5b445840ca0",
-    "X-Forwarded-For": "206.121.69.46, 205.251.202.42",
+    "X-Forwarded-For": "127.0.0.1, 127.0.0.1",
     "X-Forwarded-Port": "443",
     "X-Forwarded-Proto": "https"
   },

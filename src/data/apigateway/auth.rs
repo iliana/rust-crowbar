@@ -1,4 +1,5 @@
-use data::HttpEventRequestContext;
+/// API Gateway Custom Authenticator Events
+use data::apigateway::HttpEventRequestContext;
 
 use std::collections::BTreeMap;
 use std::fmt;
