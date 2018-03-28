@@ -4,6 +4,7 @@
 mod tests;
 
 pub mod apigateway;
+pub mod autoscaling;
 pub mod cloudwatch;
 pub mod s3;
 pub mod ses;
