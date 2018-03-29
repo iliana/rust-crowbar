@@ -3,6 +3,7 @@
 #[cfg(test)]
 mod tests;
 
+pub mod apicall;
 pub mod apigateway;
 pub mod autoscaling;
 pub mod cloudwatch;
