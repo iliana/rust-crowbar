@@ -1,0 +1,28 @@
+{
+  "id": "5e3df53a-0239-4e31-7d15-087ebef903ce",
+  "detail-type": "EC2 Instance Terminate Unsuccessful",
+  "source": "aws.autoscaling",
+  "account": "123456789012",
+  "time": "2015-12-01T23:34:57Z",
+  "region": "us-east-1",
+  "resources": [
+    "arn:aws:autoscaling:us-east-1:123456789012:autoScalingGroup:cf5ebd9c-8e2a-4197-abe2-2fb94e8d1f87:autoScalingGroupName/ASGTermFail",
+    "arn:aws:ec2:us-east-1:123456789012:instance/i-b188560f"
+  ], 
+  "detail": {
+    "StatusCode": "InProgress",
+    "Description": "Terminating EC2 instance: i-b188560f",
+    "AutoScalingGroupName": "ASGTermFail",
+    "ActivityId": "c1a8f6ce-82e8-4517-96ba-67d1999ceee4",
+    "Details": {
+      "Availability Zone": "us-east-1e",
+      "Subnet ID": "subnet-915643ba"
+    },
+    "RequestId": "c1a8f6ce-82e8-4517-96ba-67d1999ceee4",
+    "StatusMessage": "",
+    "EndTime": "2015-12-01T23:34:57.721Z",
+    "EC2InstanceId": "i-b188560f",
+    "StartTime": "2015-12-01T23:33:48.489Z",
+    "Cause": "At 2015-12-01T23:33:41Z a user request explicitly set group desired capacity changing the desired capacity from 2 to 0. At 2015-12-01T23:33:47Z an instance was taken out of service in response to a difference between desired and actual capacity, shrinking the capacity from 2 to 0. At 2015-12-01T23:33:47Z instance i-0867b4292c0cff474 was selected for termination. At 2015-12-01T23:33:48Z instance i-b188560f was selected for termination."
+  }
+}

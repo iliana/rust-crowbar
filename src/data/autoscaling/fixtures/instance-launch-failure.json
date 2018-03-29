@@ -1,0 +1,26 @@
+{
+  "id": "1681ab87-4a09-459f-95a2-7fa09403c4b7",
+  "detail-type": "EC2 Instance Launch Unsuccessful",
+  "source": "aws.autoscaling",
+  "account": "123456789012",
+  "time": "2015-11-11T21:42:36Z",
+  "region": "us-east-1",
+  "resources": [
+    "arn:aws:autoscaling:us-east-1:123456789012:autoScalingGroup:528ffce5-ef9f-4c1d-8d18-5d005b4a438c:autoScalingGroupName/brokenASG",
+    "arn:aws:ec2:us-east-1:123456789012:instance/"
+  ],
+  "detail": {
+    "StatusCode": "Failed",
+    "AutoScalingGroupName": "brokenASG",
+    "ActivityId": "06076c51-4874-487d-b15b-7895a713ab55",
+    "Details": {
+      "Availability Zone": "us-east-1e",
+      "Subnet ID": "subnet-16c5df2c"
+     },
+    "RequestId": "06076c51-4874-487d-b15b-7895a713ab55",
+    "EndTime": "2015-11-11T21:42:36.000Z",
+    "EC2InstanceId": "",
+    "StartTime": "2015-11-11T21:42:36.698Z",
+    "Cause": "At 2015-11-11T21:42:09Z a user request update of Auto Scaling group constraints to min: 0, max: 10, desired: 2 changing the desired capacity from 0 to 2. At 2015-11-11T21:42:35Z an instance was started in response to a difference between desired and actual capacity, increasing the capacity from 0 to 2."
+  }
+}
