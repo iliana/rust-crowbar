@@ -1,0 +1,92 @@
+{
+  "version": "0",
+  "id": "c8f9c4b5-76e5-d76a-f980-7011e206042b",
+  "detail-type": "Batch Job State Change",
+  "source": "aws.batch",
+  "account": "aws_account_id",
+  "time": "2017-10-23T17:56:03Z",
+  "region": "us-east-1",
+  "resources": [
+    "arn:aws:batch:us-east-1:aws_account_id:job/4c7599ae-0a82-49aa-ba5a-4727fcce14a8"
+  ],
+  "detail": {
+    "attempts": [
+      {
+        "container": {
+          "containerInstanceArn": "string",
+          "exitCode": 0,
+          "logStreamName": "string",
+          "reason": "string",
+          "taskArn": "string"
+        },
+        "startedAt": 1508781340401,
+        "statusReason": "string",
+        "stoppedAt": 1508781340401
+      }
+    ],
+    "container": {
+      "command": [ "string" ],
+      "containerInstanceArn": "string",
+      "environment": [
+        {
+          "name": "string",
+          "value": "string"
+        }
+      ],
+      "exitCode": 0,
+      "image": "string",
+      "jobRoleArn": "string",
+      "logStreamName": "string",
+      "memory": 1024,
+      "mountPoints": [
+        {
+          "containerPath": "string",
+          "readOnly": false,
+          "sourceVolume": "string"
+        }
+      ],
+      "privileged": false,
+      "readonlyRootFilesystem": false,
+      "reason": "string",
+      "taskArn": "string",
+      "ulimits": [
+        {
+          "hardLimit": 1024,
+          "name": "string",
+          "softLimit": 1024
+        }
+      ],
+      "user": "string",
+      "vcpus": 2,
+      "volumes": [
+        {
+          "host": {
+            "sourcePath": "string"
+          },
+          "name": "string"
+        }
+      ]
+    },
+    "createdAt": 1508781340401,
+    "dependsOn": [
+      {
+        "jobId": "string",
+        "type": "string"
+      }
+    ],
+    "jobDefinition": "string",
+    "jobId": "string",
+    "jobName": "string",
+    "jobQueue": "string",
+    "parameters": {
+      "string" : "string"
+    },
+    "retryStrategy": {
+      "attempts": 5
+    },
+    "startedAt": 1508781340401,
+    "status": "RUNNABLE",
+    "statusReason": "string",
+    "stoppedAt": 1508781340401
+  }
+}

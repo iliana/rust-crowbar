@@ -1,0 +1,26 @@
+{
+  "headers": null,
+  "httpMethod": "GET",
+  "methodArn": "arn:aws:execute-api:us-east-1:111111111111:rest-api-id/null/GET/",
+  "path": "/",
+  "pathParameters": {},
+  "queryStringParameters": {},
+  "requestContext": {
+    "accountId": "111111111111",
+    "apiId": "rest-api-id",
+    "httpMethod": "GET",
+    "identity": {
+      "apiKey": "test-invoke-api-key",
+      "apiKeyId": "test-invoke-api-key-id",
+      "sourceIp": "test-invoke-source-ip"
+    },
+    "path": "/",
+    "requestId": "test-invoke-request",
+    "resourceId": "test-invoke-resource-id",
+    "resourcePath": "/",
+    "stage": "test-invoke-stage"
+  },
+  "resource": "/",
+  "stageVariables": {},
+  "type": "REQUEST"
+}

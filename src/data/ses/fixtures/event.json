@@ -1,0 +1,160 @@
+{
+  "Records": [
+    {
+      "eventSource": "aws:ses",
+      "eventVersion": "1.0",
+      "ses": {
+        "mail": {
+          "commonHeaders": {
+            "date": "Tue, 6 Mar 2018 17:57:00 -0800",
+            "from": [
+              "Naftuli Kay <me@example.com>"
+            ],
+            "messageId": "<CAJ9A_CykUwZqCULLYaUA7k0eknR3EByq=anoJCXFL=6O6YjYZQ@mail.gmail.com>",
+            "returnPath": "me@example.com",
+            "subject": "Re: TESTING ONE TWO THREE",
+            "to": [
+              "test@mail.example.com"
+            ]
+          },
+          "destination": [
+            "test@mail.example.com"
+          ],
+          "headers": [
+            {
+              "name": "Return-Path",
+              "value": "<me@mail.example.com>"
+            },
+            {
+              "name": "Received",
+              "value": "from mail-ot0-f175.google.com (mail-ot0-f175.google.com [127.0.0.1]) by inbound-smtp.us-east-1.amazonaws.com with SMTP id ci63n76f5k2lfqkj48fnvevb5v797og4n6q2c601 for test@mail.mail.example.com; Wed, 07 Mar 2018 01:57:41 +0000 (UTC)"
+            },
+            {
+              "name": "X-SES-Spam-Verdict",
+              "value": "PASS"
+            },
+            {
+              "name": "X-SES-Virus-Verdict",
+              "value": "PASS"
+            },
+            {
+              "name": "Received-SPF",
+              "value": "pass (spfCheck: domain of mail.example.com designates 127.0.0.1 as permitted sender) client-ip=127.0.0.1; envelope-from=me@mail.example.com; helo=mail-ot0-f175.google.com;"
+            },
+            {
+              "name": "Authentication-Results",
+              "value": "amazonses.com; spf=pass (spfCheck: domain of mail.example.com designates 127.0.0.1 as permitted sender) client-ip=127.0.0.1; envelope-from=me@mail.example.com; helo=mail-ot0-f175.google.com; dkim=pass header.i=@mail.example.com;"
+            },
+            {
+              "name": "X-SES-RECEIPT",
+              "value": "AEFBQUFBQUFBQUFGMyswN3Z0eFFHcGNQR2gzTksvUytPV1pWeE5XRldYdlFBN2NJOVFCTXNkVmNhWGhKQVh0YW1URDYzVlhWdklzcytnWDdlaUZGclp2UFFhRGlLQzJXL2dPcTExUTNrNm42cmZWbk5KZjRwdEhuTHRpYnp2QWZaaUo0Zjh3aGkzNkd5bDlnWGc5VElhSCt5ZWpvZ1VvOXlUL01RS0RDakh5UXpiM2l1L0VVWFlBU0NCWHkyM3Q0N3llTW5OaXpkUDJiNTc2YVFwTTZScFJCeStyVW5sQTNhdFBieWcwOTBLcW4wTWEvTjJVc0ZrYmtFblI3N3NjR1paTmUvMlpyYzJQZ3VjaVM4UlRTNC92bEhOOFUzdjVMOCtjWVVHeDI1MGpibDMrTFR2RjdVaUE9PQ=="
+            },
+            {
+              "name": "X-SES-DKIM-SIGNATURE",
+              "value": "a=rsa-sha256; q=dns/txt; b=HTflBGEka0ky28/N38f73LAnutB4otH1DOm3hwu4IueRhNMYGOLS1BU7KH+pEdqNtEGsFlJY6IgOIgicQB1MHjtEQ1olnJayWs380PT6d/zf1dCRzzt3yMiekk/T873uufZUfSnuP5LXV1WlJjVe/DF+aYoXm7pODOr8tUJv4og=; c=relaxed/simple; s=224i4yxa5dv7c2xz3womw6peuasteono; d=amazonses.com; t=1520387862; v=1; bh=3HTCEG39ONL/6tcCoM6yyO/xnYCq1HJfH0P3zClezYA=; h=From:To:Cc:Bcc:Subject:Date:Message-ID:MIME-Version:Content-Type:X-SES-RECEIPT;"
+            },
+            {
+              "name": "Received",
+              "value": "by mail-ot0-f175.google.com with SMTP id t2so650813otj.4 for <test@mail.mail.example.com>; Tue, 06 Mar 2018 17:57:41 -0800 (PST)"
+            },
+            {
+              "name": "DKIM-Signature",
+              "value": "v=1; a=rsa-sha256; c=relaxed/relaxed; d=mail.example.com; s=google; h=mime-version:in-reply-to:references:from:date:message-id:subject:to; bh=rHpVC4zgea5ZUUJjs7Y1A3lCk/5qay0/PFYapEBN0Ek=; b=Jvnfzfrq2DUAU1RBrUdRKMW9qgVQQsuWqPLdWJThHYMQj/5nXpA0+M+iLCOUyraStuPhdMzzPGbP2ljvSgiHKbz78hO8Wv2sahO0MIdg0M09LPdRskZr3Id/X/iNSW9iKl4buIU2/Wcd9RcbIkgrDfLqifFKX5LRKlsoIJXvJyP/FULZEfWrx4dw0l7dUshmldTUkK+hgdiT6op/fyPSRK9RWC2e1bhPICru4HoxxJT5FMyj9wvwXTCcYFKSS8uMyI7vsppjnGrBdiR34FTMeR0x9fC+5MfdcjIegrRTpOO4zob367dgmg5+/7Njuy1rtuUHqR77J6T9Jb0tugGKXw=="
+            },
+            {
+              "name": "X-Google-DKIM-Signature",
+              "value": "v=1; a=rsa-sha256; c=relaxed/relaxed; d=1e100.net; s=20161025; h=x-gm-message-state:mime-version:in-reply-to:references:from:date :message-id:subject:to; bh=rHpVC4zgea5ZUUJjs7Y1A3lCk/5qay0/PFYapEBN0Ek=; b=JOmpunr4avHkkEWiznweya6DXebhBOZC7c+v9bTcsv+Z30iGMFLbaVQAgZhKemjzS5 k+qWL446pkObx8V1RYxN5Sit+AMCbPXIj92M+chJ9XSphkrntT2xz6xCo+kz8QF9B9+w XZGUCc274VLVMGoSTCO72QPxKWC02FltG9qaxX44+Tq/HZvJwGL0HWO1BcL9aSel5ew6 A9IwMBt5uYxIrGWVeCiziGwU1bJyVhq8W+032RgXwMlQsnFCflAaqwBq8g8AiRLnQp+d 02iKIhDKAWDU9g6tiBKl13vu7TJbfn3a8YCL1TPxncWoQ1K0JMSypSOQz1SpRn5BtGQj a7TQ=="
+            },
+            {
+              "name": "X-Gm-Message-State",
+              "value": "APf1xPBkd5dMkvjxmnEgXg43SXRN5hFAwZDGrJQLChcu/5y3FFVwJH6s TLD13Dz32NfkGtVbuClIUA39mBhuRhv6LO8WTR23P5+UzTE="
+            },
+            {
+              "name": "X-Google-Smtp-Source",
+              "value": "AG47ELvLeGERB88fCmLVCbsP0QiHPRLt2RMdkKMh9z0TGpJ/dd9bHXzMYX6KcK1BetEketARpa+SHm0Ni2aXz1qgB7E="
+            },
+            {
+              "name": "X-Received",
+              "value": "by 127.0.0.1 with SMTP id z34mr15156190otc.322.1520387860730; Tue, 06 Mar 2018 17:57:40 -0800 (PST)"
+            },
+            {
+              "name": "MIME-Version",
+              "value": "1.0"
+            },
+            {
+              "name": "Received",
+              "value": "by 127.0.0.1 with HTTP; Tue, 6 Mar 2018 17:57:00 -0800 (PST)"
+            },
+            {
+              "name": "X-Originating-IP",
+              "value": "[127.0.0.1]"
+            },
+            {
+              "name": "In-Reply-To",
+              "value": "<CAJ9A_CzYoHGNFSBJn+UeKGV8gaKVPM92=xSXfjLXThke6SEbxg@mail.gmail.com>"
+            },
+            {
+              "name": "References",
+              "value": "<CAJ9A_Cx-izZ672586H+UXVGLdBbGqyFGT=N-1xr6N-iPixx04g@mail.gmail.com> <CAJ9A_CzYoHGNFSBJn+UeKGV8gaKVPM92=xSXfjLXThke6SEbxg@mail.gmail.com>"
+            },
+            {
+              "name": "From",
+              "value": "Naftuli Kay <me@mail.example.com>"
+            },
+            {
+              "name": "Date",
+              "value": "Tue, 6 Mar 2018 17:57:00 -0800"
+            },
+            {
+              "name": "Message-ID",
+              "value": "<CAJ9A_CykUwZqCULLYaUA7k0eknR3EByq=anoJCXFL=6O6YjYZQ@mail.gmail.com>"
+            },
+            {
+              "name": "Subject",
+              "value": "Re: TESTING ONE TWO THREE"
+            },
+            {
+              "name": "To",
+              "value": "test@mail.mail.example.com"
+            },
+            {
+              "name": "Content-Type",
+              "value": "multipart/signed; protocol=\"application/pkcs7-signature\"; micalg=sha-256; boundary=\"94eb2c190ade5f8df00566c8e29d\""
+            }
+          ],
+          "headersTruncated": false,
+          "messageId": "ci63n76f5k2lfqkj48fnvevb5v797og4n6q2c601",
+          "source": "me@mail.example.com",
+          "timestamp": "2018-03-07T01:57:41.832Z"
+        },
+        "receipt": {
+          "action": {
+            "functionArn": "arn:aws:lambda:us-east-1:123456789012:function:lambda-function-name",
+            "invocationType": "RequestResponse",
+            "type": "Lambda"
+          },
+          "dkimVerdict": {
+            "status": "PASS"
+          },
+          "dmarcVerdict": {
+            "status": "PASS"
+          },
+          "processingTimeMillis": 643,
+          "recipients": [
+            "test@mail.example.com"
+          ],
+          "spamVerdict": {
+            "status": "PASS"
+          },
+          "spfVerdict": {
+            "status": "PASS"
+          },
+          "timestamp": "1970-01-01T00:00:00.000Z",
+          "virusVerdict": {
+            "status": "PASS"
+          }
+        }
+      }
+    }
+  ]
+}

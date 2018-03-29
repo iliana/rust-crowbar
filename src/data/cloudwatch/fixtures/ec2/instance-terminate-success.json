@@ -1,0 +1,26 @@
+{
+  "id": "156d01c9-a6c3-4d7e-b883-5758266b95af",
+  "detail-type": "EC2 Instance Terminate Successful",
+  "source": "aws.autoscaling",
+  "account": "123456789012",
+  "time": "2015-11-11T21:36:57Z",
+  "region": "us-east-1",
+  "resources": [
+      "arn:aws:autoscaling:us-east-1:123456789012:autoScalingGroup:eb56d16b-bbf0-401d-b893-d5978ed4a025:autoScalingGroupName/ASGTerminate",
+      "arn:aws:ec2:us-east-1:123456789012:instance/i-b188560f"
+      ],
+  "detail": {
+      "StatusCode": "InProgress",
+      "AutoScalingGroupName": "ASGTerminate",
+      "ActivityId": "56472e79-538a-4ba7-b3cc-768d889194b0",
+      "Details": {
+            "Availability Zone": "us-east-1b",
+            "Subnet ID": "subnet-95bfcebe"
+            },
+      "RequestId": "56472e79-538a-4ba7-b3cc-768d889194b0",
+      "EndTime": "1970-01-01T00:00:00.000Z",
+      "EC2InstanceId": "i-b188560f",
+      "StartTime": "1970-01-01T00:00:00.000Z",
+      "Cause": "At 2015-11-11T21:36:03Z a user request update of Auto Scaling group constraints to min: 0, max: 1, desired: 0 changing the desired capacity from 1 to 0. At 2015-11-11T21:36:12Z an instance was taken out of service in response to a difference between desired and actual capacity, shrinking the capacity from 1 to 0. At 2015-11-11T21:36:12Z instance i-b188560f was selected for termination."
+      }
+}
