@@ -6,8 +6,15 @@ use super::*;
 use chrono::Duration;
 
 #[derive(Serialize,Deserialize)]
+#[serde(untagged)]
+pub enum AutoScalingEvent {
+    Action(LifecycleAction),
+    Event(LifecycleEvent),
+}
+
+#[derive(Serialize,Deserialize)]
 #[serde(rename_all="kebab-case")]
-pub struct Action {
+pub struct LifecycleAction {
     pub account: String,
     pub id: String,
     pub detail: ActionDetail,

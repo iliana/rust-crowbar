@@ -3,8 +3,21 @@ use super::*;
 use serde_json;
 
 #[test]
+fn test_disambiguation() {
+    match serde_json::from_str(include_str!("fixtures/instance-lifecycle-launch.json")).unwrap() {
+        AutoScalingEvent::Event(_evt) => panic!("Deserialized an action as an event."),
+        AutoScalingEvent::Action(_action) => (),
+    };
+
+    match serde_json::from_str(include_str!("fixtures/instance-launch-success.json")).unwrap() {
+        AutoScalingEvent::Event(_evt) => (),
+        AutoScalingEvent::Action(_action) => panic!("Deserialized an event as an action."),
+    };
+}
+
+#[test]
 fn test_lifecycle_action_launch() {
-    let action: Action = serde_json::from_str(
+    let action: LifecycleAction = serde_json::from_str(
         include_str!("fixtures/instance-lifecycle-launch.json")
     ).unwrap();
 
@@ -13,7 +26,7 @@ fn test_lifecycle_action_launch() {
 
 #[test]
 fn test_lifecycle_action_terminate() {
-    let action: Action = serde_json::from_str(
+    let action: LifecycleAction = serde_json::from_str(
         include_str!("fixtures/instance-lifecycle-terminate.json")
     ).unwrap();
 
