@@ -13,3 +13,9 @@ If you need extra packages, add them as arguments:
 ```bash
 docker run --rm -v $(pwd):/code:ro ilianaw/crowbar-builder openssl-devel > lambda.zip
 ```
+
+If you need to build with a nightly compiler set the `TOOLCHAIN` environment variable:
+
+```bash
+docker run --rm -v $(pwd):/code:ro -e TOOLCHAIN=nightly ilianaw/crowbar-builder > lambda.zip
+```
