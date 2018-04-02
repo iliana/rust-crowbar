@@ -1,5 +1,6 @@
 #!/bin/bash
 set -euo pipefail
+export TOOLCHAIN=${TOOLCHAIN:-stable}
 export CARGO_TARGET_DIR=$(mktemp -d)
 
 (
@@ -7,7 +8,7 @@ export CARGO_TARGET_DIR=$(mktemp -d)
         yum install -y "$@"
     fi
     . $HOME/.cargo/env
-    cargo build ${CARGO_FLAGS:-} --release
+    cargo +$TOOLCHAIN build ${CARGO_FLAGS:-} --release
 ) 1>&2
 cd $CARGO_TARGET_DIR/release
 (
