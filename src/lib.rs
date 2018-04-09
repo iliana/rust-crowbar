@@ -84,10 +84,16 @@
 //! cpython = { version = "0.1", default-features = false, features = ["python27-sys"] }
 //! ```
 
+extern crate chrono;
 extern crate cpython;
 extern crate cpython_json;
 extern crate serde;
+#[macro_use]
+extern crate serde_derive;
+#[macro_use]
+extern crate serde_aux;
 extern crate serde_json;
+extern crate serde_qs;
 
 #[cfg(feature = "error-chain")]
 #[macro_use]
@@ -108,6 +114,9 @@ mod errors {
         }
     }
 }
+
+pub mod data;
+
 #[cfg(feature = "error-chain")]
 pub use errors::ErrorKind::{PyException, RustError};
 #[cfg(feature = "error-chain")]

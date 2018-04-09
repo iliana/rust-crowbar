@@ -11,12 +11,15 @@ license = "MIT/Apache-2.0"
 exclude = [".gitignore", "builder/**", "examples/**", "test/**"]
 
 [dependencies]
-serde = "1.0"
-serde_json = "1.0"
+chrono = { version = "0.4", features = ["serde"] }
 cpython = { version = "0.1", default-features = false }
 cpython-json = { version = "0.2", default-features = false }
 error-chain = { version = "0.11.0", optional = true }
+serde = "1.0"
+serde_derive = "1.0"
+serde_json = "1.0"
+serde_qs = "0.4"
+serde-aux = "0.5"
 
 [features]
 default = ["cpython/python3-sys"]
-
