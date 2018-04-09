@@ -1,0 +1,36 @@
+{
+  "body": null,
+  "headers": null,
+  "httpMethod": "DELETE",
+  "isBase64Encoded": false,
+  "path": "/user/session.json",
+  "pathParameters": null,
+  "queryStringParameters": null,
+  "requestContext": {
+    "accountId": "123456789012",
+    "apiId": "rest-api-id",
+    "httpMethod": "DELETE",
+    "identity": {
+      "accessKey": "AWS_ACCESS_KEY_ID",
+      "accountId": "123456789012",
+      "apiKey": "test-invoke-api-key",
+      "apiKeyId": "test-invoke-api-key-id",
+      "caller": "AWS_CALLER_ID",
+      "cognitoAuthenticationProvider": null,
+      "cognitoAuthenticationType": null,
+      "cognitoIdentityId": null,
+      "cognitoIdentityPoolId": null,
+      "sourceIp": "test-invoke-source-ip",
+      "user": "AIDAJDXSYAWOHYRSW7IPO",
+      "userAgent": "Apache-HttpClient/4.5.x (Java/1.8.0_144)",
+      "userArn": "arn:aws:iam::123456789012:user/example"
+    },
+    "path": "/user/session.json",
+    "requestId": "test-invoke-request",
+    "resourceId": "abcdef",
+    "resourcePath": "/user/session.json",
+    "stage": "test-invoke-stage"
+  },
+  "resource": "/user/session.json",
+  "stageVariables": null
+}
