@@ -86,6 +86,8 @@
 
 extern crate cpython;
 extern crate cpython_json;
+#[macro_use]
+extern crate log;
 extern crate serde;
 extern crate serde_json;
 
@@ -298,19 +300,22 @@ where
 {
     let event = to_json(py, &py_event).map_err(|e| e.to_pyerr(py))?;
     f(event, LambdaContext::new(&py, &py_context)?)
-        .map_err(|e| { match e {
-            #[cfg(feature = "error-chain")]
-            Error(PyException(message), _) => PyErr {
-                ptype: cpython::exc::Exception::type_object(py).into_object(),
-                pvalue: Some(PyUnicode::new(py, &message).into_object()),
-                ptraceback: None,
-            },
-            _ => PyErr {
-                ptype: cpython::exc::RuntimeError::type_object(py).into_object(),
-                pvalue: Some(PyUnicode::new(py, &format!("{}", e)).into_object()),
-                ptraceback: None,
+        .map_err(|e| {
+            error!("lambda error {:?}", e);
+            match e {
+                #[cfg(feature = "error-chain")]
+                Error(PyException(message), _) => PyErr {
+                    ptype: cpython::exc::Exception::type_object(py).into_object(),
+                    pvalue: Some(PyUnicode::new(py, &message).into_object()),
+                    ptraceback: None,
+                },
+                _ => PyErr {
+                    ptype: cpython::exc::RuntimeError::type_object(py).into_object(),
+                    pvalue: Some(PyUnicode::new(py, &format!("{}", e)).into_object()),
+                    ptraceback: None,
+                }
             }
-        }})
+        })
         .and_then(|v| {
             serde_json::value::to_value(v)
                 .map_err(cpython_json::JsonError::SerdeJsonError)
