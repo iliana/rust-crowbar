@@ -86,6 +86,8 @@
 
 extern crate cpython;
 extern crate cpython_json;
+#[macro_use]
+extern crate log;
 extern crate serde;
 extern crate serde_json;
 
@@ -99,7 +101,7 @@ mod errors {
         errors {
             PyException(message: String) {
                 description("Python Exception")
-                display("Python Exception: {:?}", message)
+                display("Python Exception: {}", message)
             }
             RustError {
                 description("Rust Exception")
@@ -123,7 +125,7 @@ pub use serde_json::value::Value;
 ///
 /// A PyException can be returned as an error, it is converted to a Python `Exception`, and the
 /// message will be used as the exception's arguments.
-/// If an error is thrown, it is converted to a Python `RuntimeError`, and the `Debug` string for
+/// If an Error type is returned, it is converted to a Python `RuntimeError`, and the `Display` string for
 /// the `Error` returned is used as the value.
 ///
 /// ```rust
@@ -145,7 +147,7 @@ pub type LambdaResult<T = Value> = errors::Result<T>;
 /// (https://doc.rust-lang.org/stable/book/error-handling.html#error-handling-with-boxerror) so
 /// that any `Error` can be thrown within your Lambda function.
 ///
-/// If an error is thrown, it is converted to a Python `RuntimeError`, and the `Debug` string for
+/// If an Error type is returned, it is converted to a Python `RuntimeError`, and the `Display` string for
 /// the `Error` returned is used as the value.
 #[cfg(not(feature = "error-chain"))]
 pub type LambdaResult<T = Value> = Result<T, Box<std::error::Error>>;
@@ -298,19 +300,22 @@ where
 {
     let event = to_json(py, &py_event).map_err(|e| e.to_pyerr(py))?;
     f(event, LambdaContext::new(&py, &py_context)?)
-        .map_err(|e| { match e {
-            #[cfg(feature = "error-chain")]
-            Error(PyException(message), _) => PyErr {
-                ptype: cpython::exc::Exception::type_object(py).into_object(),
-                pvalue: Some(PyUnicode::new(py, &message).into_object()),
-                ptraceback: None,
-            },
-            _ => PyErr {
-                ptype: cpython::exc::RuntimeError::type_object(py).into_object(),
-                pvalue: Some(PyUnicode::new(py, &format!("{:?}", e)).into_object()),
-                ptraceback: None,
+        .map_err(|e| {
+            error!("lambda error {:?}", e);
+            match e {
+                #[cfg(feature = "error-chain")]
+                Error(PyException(message), _) => PyErr {
+                    ptype: cpython::exc::Exception::type_object(py).into_object(),
+                    pvalue: Some(PyUnicode::new(py, &message).into_object()),
+                    ptraceback: None,
+                },
+                _ => PyErr {
+                    ptype: cpython::exc::RuntimeError::type_object(py).into_object(),
+                    pvalue: Some(PyUnicode::new(py, &format!("{}", e)).into_object()),
+                    ptraceback: None,
+                }
             }
-        }})
+        })
         .and_then(|v| {
             serde_json::value::to_value(v)
                 .map_err(cpython_json::JsonError::SerdeJsonError)
