@@ -1,3 +1,6 @@
+/.ansible/galaxy-roles
+/.vagrant
+
 target
 Cargo.lock
 *.swp
