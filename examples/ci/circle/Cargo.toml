@@ -12,8 +12,8 @@ name = "lambda"
 crate-type = ["cdylib"]
 
 [dependencies]
-crowbar = { version = "0.2", default-features = false }
-cpython = { version = "0.1", default-features = false }
+crowbar = { version = "0.3", default-features = false }
+cpython = { version = "0.2", default-features = false }
 
 [features]
 default = ["cpython/python3-sys"]
