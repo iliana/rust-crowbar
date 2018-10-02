@@ -13,8 +13,8 @@ Add both crowbar and cpython to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-crowbar = "0.2"
-cpython = "0.1"
+crowbar = "0.3"
+cpython = "0.2"
 ```
 
 Use macros from both crates:

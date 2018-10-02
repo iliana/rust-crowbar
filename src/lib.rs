@@ -7,8 +7,8 @@
 //!
 //! ```toml
 //! [dependencies]
-//! crowbar = "0.2"
-//! cpython = "0.1"
+//! crowbar = "0.3"
+//! cpython = "0.2"
 //! ```
 //!
 //! Use macros from both crates:
@@ -80,8 +80,8 @@
 //!
 //! ```toml
 //! [dependencies]
-//! crowbar = { version = "0.2", default-features = false }
-//! cpython = { version = "0.1", default-features = false, features = ["python27-sys"] }
+//! crowbar = { version = "0.3", default-features = false }
+//! cpython = { version = "0.2", default-features = false, features = ["python27-sys"] }
 //! ```
 
 extern crate cpython;

@@ -4,8 +4,8 @@
 #
 # - Change the name, version, and authors under [package]
 # - Use this as your [dependencies] section:
-#   crowbar = "0.2"
-#   cpython = "0.1"
+#   crowbar = "0.3"
+#   cpython = "0.2"
 # - Remove the [features] section
 #
 # If you need to use Python 2.7 refer to the crate-level documentation.
@@ -21,8 +21,8 @@ name = "lambda"
 crate-type = ["cdylib"]
 
 [dependencies]
-crowbar = { path = "../..", version = "0.2", default-features = false }
-cpython = { version = "0.1", default-features = false }
+crowbar = { path = "../..", version = "0.3", default-features = false }
+cpython = { version = "0.2", default-features = false }
 rusoto_core = "0.28"
 rusoto_ec2 = "0.28"
 
