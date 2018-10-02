@@ -17,4 +17,6 @@ else
   cargo build --lib --release --color never
 fi
 
-~/.local/bin/create-deployment -v target/release/liblambda.so target/deploy
+# this is provided by naftulikay/crowbar to bundle a zip with all dependencies
+# this will create target/deploy/lambda.zip
+create-deployment -v target/release/liblambda.so target/deploy

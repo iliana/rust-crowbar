@@ -4,7 +4,7 @@ LAMBDA_FUNCTION_NAME:=YOUR_LAMBDA_NAME
 CACHE_DIR:=$(HOME)/.cache/cargo
 ZIP_FILE:=$(CACHE_DIR)/target/deploy/lambda.zip
 # change this to your own container based on lambci/lambda:build-python3.6
-DOCKER_IMAGE:=naftulikay/circleci-lambda-rust:latest
+DOCKER_IMAGE:=naftulikay/crowbar:latest
 
 WORKDIR:=$(shell pwd)
 

@@ -69,10 +69,11 @@ experience has shown this is the best way to build Python 3.6 shared libraries.
 
 [@naftulikay][naftulikay] created a sample Rust build environment based on the upstream
 [`lambci/lambda:build-python3.6`][lambci/lambda] image at
-[`naftulikay/circleci-lambda-rust`][naftulikay/circleci-lambda-rust]. Previously,
+[`naftulikay/crowbar`][naftulikay/crowbar]. Previously,
 [`naftulikay/circleci-amazonlinux-rust`][naftulikay/circleci-amazonlinux-rust] was used and the aforementioned issues
 were encountered. Despite CircleCI being used in the name, the image is a fairly generic Rust build environment and
-should be fairly portable and resuable. For Travis CI and CircleCI examples, please look in the `examples/ci` directory.
+should be fairly portable and resuable. For Travis CI and CircleCI examples, please look in the
+[`examples/ci`](./examples/ci) directory.
 
 Because you're building a dynamic library, other libraries that you're dynamically linking against need to also be in
 the Lambda execution environment. By using the [`lambci/lambda:build-python3.6`][lambci/lambda] image, the build
@@ -87,11 +88,8 @@ LD_LIBRARY_PATH=/lib64:/usr/lib64:$LAMBDA_TASK_ROOT:$LAMBDA_TASK_ROOT/lib
 
 [@naftulikay][naftulikay] wrote a fairly naïve Python script which will recursively copy linked libraries into the
 deployment package under `lib/`. This ensures that any non-standard libraries will be available on the library path at
-runtime. See the `examples/ci/{travis,circle}` directories for examples on how to use this.
-
-The `builder` directory of the [crowbar git repo](https://github.com/ilianaw/rust-crowbar) contains a `Dockerfile` with
-Rust set up and a build script to dump a zip file containing a stripped shared library to stdout. Documentation for
-using that is available at [ilianaw/crowbar-builder on Docker Hub](https://hub.docker.com/r/ilianaw/crowbar-builder/).
+runtime. See the `examples/ci/{travis,circle}` directories for examples on how to use this, and see
+[naftulikay/docker-crowbar][naftulikay/crowbar] for more information.
 
 ## Contributing
 
@@ -111,5 +109,5 @@ please read it.
  [lambda-execution-environment]: https://docs.aws.amazon.com/lambda/latest/dg/current-supported-versions.html
  [naftulikay]: https://github.com/naftulikay
  [naftulikay/circleci-amazonlinux-rust]: https://github.com/naftulikay/docker-circleci-amazonlinux-rust
- [naftulikay/circleci-lambda-rust]: https://github.com/naftulikay/docker-circleci-lambda-rust
+ [naftulikay/crowbar]: https://github.com/naftulikay/docker-crowbar
  [woes]: https://github.com/naftulikay/docker-circleci-lambda-rust#background
