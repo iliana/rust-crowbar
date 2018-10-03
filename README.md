@@ -91,6 +91,13 @@ deployment package under `lib/`. This ensures that any non-standard libraries wi
 runtime. See the `examples/ci/{travis,circle}` directories for examples on how to use this, and see
 [naftulikay/docker-crowbar][naftulikay/crowbar] for more information.
 
+## Deployment
+
+### Serverless framework
+
+[Serverless framework](https://serverless.com/framework/) is an extemely popular workflow tool for developing and deploying serverless applications and comes with in depth [guides for AWS lambda](https://serverless.com/framework/docs/providers/aws/guide/). Serverless
+framework is surrounded by a strong ecosystem of plugins including a plugin for deploying [Rust applications](https://github.com/softprops/serverless-rust). A serverless rust template for quickly bootstraping, building, and deploying crowbar applications can be found [here](https://github.com/softprops/serverless-crowbar).
+
 ## Contributing
 
 crowbar welcomes your contributions:
