@@ -162,13 +162,12 @@ use cpython_json::{from_json, to_json};
 /// (https://docs.aws.amazon.com/lambda/latest/dg/python-context-object.html) in the AWS Lambda
 /// docs.
 pub struct LambdaContext<'a> {
-    py: &'a Python<'a>,
-    py_context: &'a PyObject,
     string_storage: [String; 7],
+    remaining_time: Box<Fn() -> Result<u64, ContextError> + 'a>
 }
 
 impl<'a> LambdaContext<'a> {
-    fn new(py: &'a Python, py_context: &'a PyObject) -> PyResult<LambdaContext<'a>> {
+    fn new(py: &'a Python, py_context: &'a PyObject) -> PyResult<Self> {
         macro_rules! str_attr {
             ($x:expr) => {
                 py_context.getattr(*py, $x)?.extract::<String>(*py)?;
@@ -186,9 +185,17 @@ impl<'a> LambdaContext<'a> {
         ];
 
         Ok(LambdaContext {
-            py: py,
-            py_context: py_context,
             string_storage: string_storage,
+            remaining_time: Box::new(move || {
+                py_context.call_method(
+                    *py,
+                    "get_remaining_time_in_millis",
+                    PyTuple::new(*py, &[]),
+                    None,
+                )
+                .and_then(|x| x.extract::<u64>(*py))
+                .map_err(|_| ContextError::GetRemainingTimeFailed)
+            })
         })
     }
 
@@ -245,20 +252,58 @@ impl<'a> LambdaContext<'a> {
     /// or cast it to a `u64` from the Python object. This should generally never happen, so you
     /// could call this as `context.get_remaining_time_in_millis().unwrap_or(0)` in your function.
     pub fn get_remaining_time_in_millis(&self) -> Result<u64, ContextError> {
-        self.py_context
-            .call_method(
-                *self.py,
-                "get_remaining_time_in_millis",
-                PyTuple::new(*self.py, &[]),
-                None,
-            )
-            .and_then(|x| x.extract::<u64>(*self.py))
-            .map_err(|_| ContextError::GetRemainingTimeFailed)
+        (self.remaining_time)()
+    }
+
+    #[cfg(test)]
+    pub fn fake() -> Self {
+        let name = "Fake";
+        let version = "LATEST";
+        LambdaContext {
+            string_storage: [
+                name.into(),
+                version.into(),
+                format!("arn:aws:lambda:serverless:{}", name),
+                "1024".into(),
+                "1234567890".into(),
+                format!("/aws/lambda/{}", name),
+                format!("xxxx/xx/xx/$[{}]58419525dade4d17a495dceeeed44708", version),
+            ],
+            remaining_time: Box::new(move || {
+                Ok(10_000)
+            })
+        }
+    }
+
+    #[cfg(test)]
+    pub fn with_function_name<S>(mut self, value: S) -> Self where S: Into<String> {
+        self.string_storage[0] = value.into();
+        self
+    }
+
+    #[cfg(test)]
+    pub fn with_function_version<S>(mut self, value: S) -> Self where S: Into<String> {
+        self.string_storage[1] = value.into();
+        self
+    }
+
+    #[cfg(test)]
+    pub fn with_invoked_function_arn<S>(mut self, value: S) -> Self where S: Into<String> {
+        self.string_storage[2] = value.into();
+        self
+    }
+
+    #[cfg(test)]
+    pub fn with_get_remaining_time_in_millis(mut self, time: u64) -> Self {
+        self.remaining_time = Box::new(move || {
+            Ok(time)
+        });
+        self
     }
 }
 
 /// Error enum for things that can go wrong while processing the context object.
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub enum ContextError {
     /// Occurs if crowbar is unable to call the method on the context object or cast it to a `u64`
     /// from the Python object.
@@ -456,4 +501,22 @@ macro_rules! lambda {
     ($f:expr) => {
         lambda! { "handler" => $f, }
     };
+}
+
+
+#[cfg(test)]
+mod tests {
+    use super::LambdaContext;
+    #[test]
+    fn fake_context() {
+        let fake = LambdaContext::fake()
+            .with_function_name("test")
+            .with_function_version("1.0")
+            .with_invoked_function_arn("testarn")
+            .with_get_remaining_time_in_millis(5_000);
+        assert_eq!(fake.function_name(), "test");
+        assert_eq!(fake.function_version(), "1.0");
+        assert_eq!(fake.invoked_function_arn(), "testarn");
+        assert_eq!(fake.get_remaining_time_in_millis(), Ok(5_000));
+    }
 }
