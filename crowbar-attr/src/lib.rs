@@ -51,7 +51,7 @@ fn attr_impl(_: TokenStream, input: TokenStream) -> TokenStream {
     };
     if target.decl.inputs.len() != 2 {
         panic!(
-            "the 'lambdafn' attribute requires a function with two arguments. expecting {}(_: lando::Request, _: lando::LambdaContext) -> lando::Result", target.ident
+            "the 'lambdafn' attribute requires a function with two arguments. expecting {}(_: crowbar::Value, _: crowbar::LambdaContext) -> crowbar::LambdaResult", target.ident
             );
             // https://doc.rust-lang.org/proc_macro/struct.Span.html#method.error
             // use span diagnotics when it becomes stable
@@ -60,7 +60,7 @@ fn attr_impl(_: TokenStream, input: TokenStream) -> TokenStream {
         ReturnType::Default => {
             // https://doc.rust-lang.org/proc_macro/struct.Span.html#method.error
             // use span diagnotics when it becomes stable
-            panic!("the 'lambdafn' attribute requires a function that returns a. expecting {}(_: lando::Request, _: lando::LambdaContext) -> lando::Result", target.ident);
+            panic!("the 'lambdafn' attribute requires a function that returns a. expecting {}(_: crowbar::Value, _: crowbar::LambdaContext) -> crowbar::LambdaResult", target.ident);
         },
         _ => ()
     }
