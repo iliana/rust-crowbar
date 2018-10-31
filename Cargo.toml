@@ -11,6 +11,7 @@ license = "MIT/Apache-2.0"
 exclude = [".gitignore", "builder/**", "examples/**", "test/**"]
 
 [dependencies]
+crowbar-attr = { version = "0.3.0", path = "crowbar-attr" }
 serde = "1.0"
 serde_json = "1.0"
 cpython = { version = "0.2", default-features = false }

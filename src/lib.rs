@@ -13,11 +13,12 @@
 //!
 //! Use macros from both crates:
 //!
-//! ```rust,ignore
-//! #[macro_use(lambda)]
+//! ```rust
+//! #[macro_use]
 //! extern crate crowbar;
 //! #[macro_use]
 //! extern crate cpython;
+//! # fn main() { }
 //! ```
 //!
 //! And write your function using the `lambda!` macro:
@@ -32,6 +33,20 @@
 //!     Ok(event)
 //! });
 //! # }
+//! ```
+//!
+//! Alternatively, you can also just attribute a bare handler `fn` with `#[lambdafn]`
+//!
+//! ```rust
+//! # #[macro_use] extern crate crowbar;
+//! # #[macro_use] extern crate cpython;
+//! #[lambdafn]
+//! fn handler(
+//!     event: crowbar::Value,
+//!     ctx: crowbar::LambdaContext
+//! ) -> crowbar::LambdaResult {
+//!     Ok(event)
+//! }
 //! ```
 //!
 //! # Building Lambda functions
@@ -84,6 +99,8 @@
 //! cpython = { version = "0.2", default-features = false, features = ["python27-sys"] }
 //! ```
 
+extern crate crowbar_attr;
+pub use crowbar_attr::*;
 extern crate cpython;
 extern crate cpython_json;
 #[macro_use]
