@@ -60,7 +60,7 @@ fn attr_impl(_: TokenStream, input: TokenStream) -> TokenStream {
         ReturnType::Default => {
             // https://doc.rust-lang.org/proc_macro/struct.Span.html#method.error
             // use span diagnotics when it becomes stable
-            panic!("the 'lambdafn' attribute requires a function that returns a. expecting {}(_: crowbar::Value, _: crowbar::LambdaContext) -> crowbar::LambdaResult", target.ident);
+            panic!("the 'lambdafn' attribute requires a function that returns a value. expecting {}(_: crowbar::Value, _: crowbar::LambdaContext) -> crowbar::LambdaResult", target.ident);
         },
         _ => ()
     }
