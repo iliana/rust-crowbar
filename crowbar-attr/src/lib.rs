@@ -5,10 +5,7 @@ extern crate proc_macro;
 extern crate quote;
 extern crate syn;
 
-// std lib(ish)
 use proc_macro::TokenStream;
-
-// third party
 use syn::{parse, ItemFn, ReturnType};
 
 /// Implements the `lambdafn` attribute.
