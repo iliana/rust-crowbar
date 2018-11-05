@@ -50,16 +50,6 @@
          offset="0"
          id="stop7134" />
     </linearGradient>
-    <filter
-       inkscape:collect="always"
-       style="color-interpolation-filters:sRGB"
-       id="filter7524">
-      <feBlend
-         inkscape:collect="always"
-         mode="lighten"
-         in2="BackgroundImage"
-         id="feBlend7526" />
-    </filter>
   </defs>
   <sodipodi:namedview
      pagecolor="#ffffff"
@@ -81,7 +71,7 @@
      inkscape:window-x="48"
      inkscape:window-y="0"
      inkscape:window-maximized="0"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="layer2"
      inkscape:snap-text-baseline="false" />
   <text
      xml:space="preserve"
@@ -113,21 +103,14 @@
      id="layer2"
      inkscape:label="lambda"
      style="display:inline">
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:800;font-stretch:normal;font-size:50px;line-height:125%;font-family:'.Helvetica Neue DeskInterface';-inkscape-font-specification:'.Helvetica Neue DeskInterface, Ultra-Bold';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;opacity:1;fill:#ff6600;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;"
-       x="39.208832"
-       y="72.138222"
-       id="text4064"
-       sodipodi:linespacing="125%"
-       inkscape:export-filename="/Users/dougtangren/Desktop/lambda-sproket-crowbar-snakes-side.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90"><tspan
-         sodipodi:role="line"
-         id="tspan4066"
-         x="39.208832"
-         y="72.138222"
-         style="fill:#ff6600;fill-opacity:1;">λ</tspan></text>
+    <g
+       style="font-style:normal;font-variant:normal;font-weight:800;font-stretch:normal;font-size:50px;line-height:125%;font-family:'.Helvetica Neue DeskInterface';-inkscape-font-specification:'.Helvetica Neue DeskInterface, Ultra-Bold';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;opacity:1;fill:#ff6600;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       id="text4064">
+      <path
+         d="m 50.336881,48.052856 -1.981708,-4.268293 q -0.660569,-1.575203 -3.302845,-1.575203 -0.711382,0 -1.117886,0.101626 -0.406505,0.05081 -1.371952,0.304878 l 0,-6.148374 q 1.473578,-0.406504 2.69309,-0.50813 1.270325,-0.101626 2.591463,-0.101626 4.166667,0 5.945122,1.727642 1.829268,1.727642 3.099594,5.132114 l 8.28252,21.087398 q 0.355691,1.016261 0.762195,1.930895 0.406504,0.863821 1.270325,0.863821 0.813008,0 1.524391,-0.254065 l 0,5.284553 q -1.016261,0.558943 -2.337399,0.914634 -1.270325,0.355691 -2.439024,0.355691 -2.743903,0 -4.166667,-0.965447 -1.371951,-1.01626 -2.03252,-3.20122 l -3.658537,-12.398374 -0.152439,0 -4.928862,15.802846 -9.197154,0 10.518293,-24.085366 z"
+         style="fill:#ff6600;fill-opacity:1"
+         id="path6675" />
+    </g>
   </g>
   <g
      inkscape:label="lambda text - heveltica neuve utra bold "
@@ -147,20 +130,4 @@
          id="tspan4076"
          sodipodi:role="line">λ</tspan></text>
   </g>
-  <g
-     inkscape:groupmode="layer"
-     id="layer4"
-     inkscape:label="crowbar"
-     style="display:inline;filter:url(#filter7524)">
-    <flowRoot
-       xml:space="preserve"
-       id="flowRoot4723"
-       style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"><flowRegion
-         id="flowRegion4725"><rect
-           id="rect4727"
-           width="543"
-           height="235"
-           x="-102"
-           y="-60" /></flowRegion><flowPara
-         id="flowPara4729"></flowPara></flowRoot>  </g>
 </svg>
