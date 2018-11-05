@@ -4,9 +4,7 @@
 [![crates.io](https://img.shields.io/crates/v/crowbar.svg)](https://crates.io/crates/crowbar)
 [![docs.rs](https://docs.rs/crowbar/badge.svg)](https://docs.rs/crowbar)
 
-<p style="text-align:center">
- <img src="assets/logo.png"/>
-</p>
+![logo](assets/logo.png)
 
 crowbar makes it easy to write AWS Lambda functions in Rust. It wraps native Rust functions into CPython modules that
 handle converting Python objects into Rust objects and back again.
