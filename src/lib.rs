@@ -8,23 +8,19 @@
 //! ```toml
 //! [dependencies]
 //! crowbar = "0.3"
-//! cpython = "0.2"
 //! ```
 //!
-//! Use macros from both crates:
+//! Use macros from the crowbar crate:
 //!
 //! ```rust,ignore
-//! #[macro_use(lambda)]
-//! extern crate crowbar;
 //! #[macro_use]
-//! extern crate cpython;
+//! extern crate crowbar;
 //! ```
 //!
 //! And write your function using the `lambda!` macro:
 //!
 //! ```rust
-//! # #[macro_use(lambda)] extern crate crowbar;
-//! # #[macro_use] extern crate cpython;
+//! # #[macro_use] extern crate crowbar;
 //! # fn main() {
 //! lambda!(|event, context| {
 //!     println!("hi cloudwatch logs, this is {}", context.function_name());
@@ -84,7 +80,10 @@
 //! cpython = { version = "0.2", default-features = false, features = ["python27-sys"] }
 //! ```
 
-extern crate cpython;
+#[doc(hidden)]
+pub extern crate cpython;
+#[doc(hidden)]
+pub use cpython::*;
 extern crate cpython_json;
 #[macro_use]
 extern crate log;
@@ -111,12 +110,10 @@ mod errors {
     }
 }
 #[cfg(feature = "error-chain")]
-pub use errors::ErrorKind::{PyException, RustError};
-#[cfg(feature = "error-chain")]
 pub use errors::Error;
+#[cfg(feature = "error-chain")]
+pub use errors::ErrorKind::{PyException, RustError};
 
-#[doc(hidden)]
-pub use cpython::{PyObject, PyResult};
 pub use serde_json::value::Value;
 
 /// Result object that accepts `Ok(T)` or any `Err(Error)`.
@@ -152,8 +149,6 @@ pub type LambdaResult<T = Value> = errors::Result<T>;
 #[cfg(not(feature = "error-chain"))]
 pub type LambdaResult<T = Value> = Result<T, Box<std::error::Error>>;
 
-use cpython::{ObjectProtocol, PyErr, PyTuple, PyUnicode, Python, PythonObject,
-              PythonObjectWithTypeObject};
 use cpython_json::{from_json, to_json};
 
 /// Provides a view into the `context` object available to Lambda functions.
@@ -335,14 +330,11 @@ where
 /// fn handler(event: Value, context: LambdaContext) -> LambdaResult
 /// ```
 ///
-/// To use this macro, you need to `macro_use` both crowbar *and* cpython, because crowbar
-/// references multiple cpython macros.
+/// To use this macro, you need to `macro_use` the crowbar crate.
 ///
 /// ```rust,ignore
-/// #[macro_use(lambda)]
-/// extern crate crowbar;
 /// #[macro_use]
-/// extern crate cpython;
+/// extern crate crowbar;
 /// ```
 ///
 /// # Examples
@@ -350,8 +342,7 @@ where
 /// You can wrap a closure with `lambda!`:
 ///
 /// ```rust
-/// # #[macro_use(lambda)] extern crate crowbar;
-/// # #[macro_use] extern crate cpython;
+/// # #[macro_use] extern crate crowbar;
 /// # fn main() {
 /// lambda!(|event, context| {
 ///     println!("hello!");
@@ -363,8 +354,7 @@ where
 /// You can also define a named function:
 ///
 /// ```rust
-/// # #[macro_use(lambda)] extern crate crowbar;
-/// # #[macro_use] extern crate cpython;
+/// # #[macro_use] extern crate crowbar;
 /// # fn main() {
 /// use crowbar::{Value, LambdaContext, LambdaResult};
 ///
@@ -382,8 +372,7 @@ where
 /// You can define multiple handlers in the same module in a way similar to `match`:
 ///
 /// ```rust
-/// # #[macro_use(lambda)] extern crate crowbar;
-/// # #[macro_use] extern crate cpython;
+/// # #[macro_use] extern crate crowbar;
 /// # fn main() {
 /// lambda! {
 ///     "one" => |event, context| { Ok("one") },
@@ -407,8 +396,7 @@ where
 /// upon the multiple handler version of `lambda!`:
 ///
 /// ```rust
-/// # #[macro_use(lambda)] extern crate crowbar;
-/// # #[macro_use] extern crate cpython;
+/// # #[macro_use] extern crate crowbar;
 /// # fn main() {
 /// lambda! {
 ///     crate (libkappa, initlibkappa, PyInit_libkappa) {
