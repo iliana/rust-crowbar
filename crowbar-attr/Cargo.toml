@@ -1,7 +1,7 @@
 [package]
 name = "crowbar-attr"
 version = "0.3.0"
-authors = ["Iliana Weller <ilianaw@buttslol.net>"]
+authors = ["Iliana Weller <ilianaw@buttslol.net>", "Doug Tangren <d.tangren@gmail.com>"]
 description = "Provides rust-crowbar proc macro attribute"
 readme = "../README.md"
 repository = "https://github.com/ilianaw/rust-crowbar"

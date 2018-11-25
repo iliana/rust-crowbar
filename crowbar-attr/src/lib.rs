@@ -66,7 +66,7 @@ fn attr_impl(_: TokenStream, input: TokenStream) -> TokenStream {
     let expanded = quote! {
         #target
 
-        lambda!(stringify!(#target_name) => #target_ident);
+        lambda!(#target_name => #target_ident);
     };
     expanded.into()
 }
