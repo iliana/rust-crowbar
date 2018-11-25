@@ -294,7 +294,31 @@ impl<'a> LambdaContext<'a> {
     }
 
     #[cfg(test)]
-    pub fn with_get_remaining_time_in_millis(mut self, time: u64) -> Self {
+    pub fn with_memory_limit_in_mb<S>(mut self, value: S) -> Self where S: Into<String> {
+        self.string_storage[3] = value.into();
+        self
+    }
+
+    #[cfg(test)]
+    pub fn with_aws_request_id<S>(mut self, value: S) -> Self where S: Into<String> {
+        self.string_storage[4] = value.into();
+        self
+    }
+
+    #[cfg(test)]
+    pub fn with_log_group_name<S>(mut self, value: S) -> Self where S: Into<String> {
+        self.string_storage[5] = value.into();
+        self
+    }
+
+    #[cfg(test)]
+    pub fn with_log_stream_name<S>(mut self, value: S) -> Self where S: Into<String> {
+        self.string_storage[6] = value.into();
+        self
+    }
+
+    #[cfg(test)]
+    pub fn with_remaining_time_in_millis(mut self, time: u64) -> Self {
         self.remaining_time = Box::new(move || {
             Ok(time)
         });
@@ -513,10 +537,18 @@ mod tests {
             .with_function_name("test")
             .with_function_version("1.0")
             .with_invoked_function_arn("testarn")
-            .with_get_remaining_time_in_millis(5_000);
+            .with_memory_limit_in_mb("128")
+            .with_aws_request_id("123")
+            .with_log_group_name("foobar")
+            .with_log_stream_name("bazboom")
+            .with_remaining_time_in_millis(5_000);
         assert_eq!(fake.function_name(), "test");
         assert_eq!(fake.function_version(), "1.0");
         assert_eq!(fake.invoked_function_arn(), "testarn");
+        assert_eq!(fake.memory_limit_in_mb(), "128");
+        assert_eq!(fake.aws_request_id(), "123");
+        assert_eq!(fake.log_group_name(), "foobar");
+        assert_eq!(fake.log_stream_name(), "bazboom");
         assert_eq!(fake.get_remaining_time_in_millis(), Ok(5_000));
     }
 }
