@@ -9,12 +9,6 @@
 crowbar makes it easy to write AWS Lambda functions in Rust. It wraps native Rust functions into CPython modules that
 handle converting Python objects into Rust objects and back again.
 
-## Alternatives
-
-As AWS Lambda has added more runtimes, more ways to run Rust on Lambda have emerged.
-
-The [Rust on AWS Lambda](https://srijs.github.io/rust-aws-lambda/) project is kind enough to offer an alternative, and a comparison of itself to crowbar.
-
 ## Usage
 
 Add both crowbar and cpython to your `Cargo.toml`:
@@ -117,6 +111,12 @@ crowbar welcomes your contributions:
 
 crowbar follows a [code of conduct](https://github.com/ilianaw/rust-crowbar/blob/master/CODE_OF_CONDUCT.md);
 please read it.
+
+## Alternatives
+
+As AWS Lambda has added more runtimes, more ways to run Rust on Lambda have emerged.
+
+The [Rust on AWS Lambda](https://srijs.github.io/rust-aws-lambda/) project is kind enough to offer an alternative, and a comparison of itself to crowbar.
 
  [travis]: https://travis-ci.org/ilianaw/rust-crowbar
  [travis.svg]: https://travis-ci.org/ilianaw/rust-crowbar.svg?branch=master
